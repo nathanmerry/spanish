@@ -1,19 +1,19 @@
 <template>
   <div id="app">
-    <Header />
-    <Menu />
+    <TopTitle />
+    <Activities />
   </div>
 </template>
 
 <script>
-import Header from "./components/header.vue";
-import Menu from "./components/menu.vue";
+import TopTitle from "./components/title.vue";
+import Activities from "./components/activities.vue";
 
 export default {
   name: "App",
   components: {
-    Header,
-    Menu
+    TopTitle,
+    Activities
   }
 };
 </script>
