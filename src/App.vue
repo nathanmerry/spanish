@@ -1,27 +1,34 @@
 <template>
   <div id="app">
     <TopTitle />
-    <Activities />
+    <NavBar />
+    <MainBody v-bind:title="this.test" />
   </div>
 </template>
 
 <script>
 import TopTitle from "./components/title.vue";
-import Activities from "./components/activities.vue";
+import NavBar from "./components/navbar.vue";
+// import TanguageData from "./utils/apicall.js";
+import MainBody from "./components/mainbody.vue";
 
 export default {
   name: "App",
   components: {
     TopTitle,
-    Activities
+    NavBar,
+    MainBody
+  },
+
+  data() {
+    return {
+      test: []
+    };
   }
 };
 </script>
 
 <style lang="scss">
-$colorA: #fdbb43;
-$colorB: #1e90ff;
-
 body {
   margin: 0;
   padding: 0;
