@@ -1,7 +1,7 @@
 <template>
   <header class="header">
     <div class="container">
-      <h1>Tanguage</h1>
+      <h1>Test</h1>
     </div>
   </header>
 </template>

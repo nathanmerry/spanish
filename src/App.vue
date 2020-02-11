@@ -32,7 +32,7 @@ export default {
 body {
   margin: 0;
   padding: 0;
-  background-color: #f3f3f3;
+  background-color: #fdbb4333;
   font-family: Roboto, sans-serif;
 
   .main p,
@@ -82,6 +82,7 @@ body {
 
   .container {
     max-width: 1000px;
+    padding: 0 20px;
     margin: 0 auto;
     position: relative;
   }

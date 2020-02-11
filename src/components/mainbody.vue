@@ -1,22 +1,27 @@
 <template>
   <div id="mainbody" class="mainbody">
     <div class="container">
-      <ul class="categories">
-        <li
-          class="categories__item"
-          v-for="(category, index) in this.categories"
-          :key="index"
-        >
-          {{ category }}
-        </li>
-      </ul>
+      <div class="categories">
+        <ul class="categories__list">
+          <Category
+            v-for="(category, index) in this.categories"
+            :key="index"
+            :category="category"
+          />
+        </ul>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import Category from "./category.vue";
+
 export default {
   name: "MainBody",
+  components: {
+    Category
+  },
   data() {
     return {
       activities: [],
@@ -56,15 +61,8 @@ export default {
 
 <style lang="scss">
 .categories {
-  display: flex;
-  justify-content: center;
   margin: 0;
-  padding: 0;
+  padding-top: 40px;
   list-style: none;
-
-  &__item {
-    padding: 0 20px;
-    text-transform: capitalize;
-  }
 }
 </style>
