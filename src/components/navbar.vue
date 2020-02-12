@@ -26,9 +26,8 @@ export default {
   data() {
     return {
       menu: [
-        { text: "Reading", isActive: true, isInactive: false },
-        { text: "Listening", isActive: false, isInactive: true },
-        { text: "Both", isActive: false, isInactive: true }
+        { text: "Game", isActive: true, isInactive: false },
+        { text: "Volcabulary", isActive: false, isInactive: true },
       ]
     };
   },

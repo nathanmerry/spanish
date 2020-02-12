@@ -25,46 +25,37 @@ export default {
   data() {
     return {
       activities: [],
-      categories: [],
-
-      test2: {
-        hello: "hello",
-        goodbye: "goodbye"
-      },
-      test: "hello"
+      categories: []
     };
   },
 
   methods: {
-    filterDuplicateCategories(activitiesObject) {
-      let duplicateCategories = [];
-      activitiesObject.map(item => {
-        duplicateCategories.push(item.category);
-      });
-      let uniqueCategories = [...new Set(duplicateCategories)];
-      this.categories = uniqueCategories;
-    }
+    // filterDuplicateCategories(activitiesObject) {
+    //   let duplicateCategories = [];
+    //   activitiesObject.map(item => {
+    //     duplicateCategories.push(item.category);
+    //   });
+    //   let uniqueCategories = [...new Set(duplicateCategories)];
+    //   this.categories = uniqueCategories;
+    // }
   },
 
   mounted() {
-    fetch("https://data.test/index.php/wp-json/markers/v1/post/")
+    fetch("https://data.test/wp-json/wp/v2/categories")
       .then(response => response.json())
       .then(jsonResponse => {
-        this.activities = jsonResponse.map(item => {
-          return {
-            english: item.acf.name_en,
-            spanish: item.acf.name_es,
-            category: item.category[0].name
-          };
+        this.categories = jsonResponse.map(category => {
+          if (category.name != "Uncategorized") {
+            console.log(category.name);
+            return category.name;
+          } else {
+            console.log("uncategorized");
+          }
         });
-      })
-      .then(() => {
-        this.filterDuplicateCategories(this.activities);
       });
   }
 
   // create another endpoint which returns the translations speicifc to that subject
-
 };
 </script>
 
