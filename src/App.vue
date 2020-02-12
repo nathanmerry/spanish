@@ -2,7 +2,7 @@
   <div id="app">
     <TopTitle />
     <NavBar />
-    <MainBody v-bind:title="this.test" />
+    <router-view />
   </div>
 </template>
 
@@ -10,14 +10,14 @@
 import TopTitle from "./components/title.vue";
 import NavBar from "./components/navbar.vue";
 // import TanguageData from "./utils/apicall.js";
-import MainBody from "./components/mainbody.vue";
+// import MainBody from "./components/mainbody.vue";
 
 export default {
   name: "App",
   components: {
     TopTitle,
-    NavBar,
-    MainBody
+    NavBar
+    // MainBody
   },
 
   data() {

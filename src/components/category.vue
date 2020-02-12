@@ -1,9 +1,10 @@
 <template>
-  <li id="category" class="categories__item">
-    <a>
-      {{ category }}
-    </a>
-  </li>
+  <div class="category">
+    <div class="container">
+      <h1>{{ the_subject }}</h1>
+      <p>{{ title }}</p>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -11,27 +12,20 @@ export default {
   name: "Category",
 
   props: {
-    category: String
+    title: String,
+  },
+
+  data() {
+    return {
+      the_subject: this.$route.params.subject
+    };
   }
 };
+
+// create another endpoint which returns the translations speicifc to that subject
 </script>
 
-<style lang="scss">
-.categories {
-  &__list {
-    display: flex;
-    justify-content: space-around;
 
-    margin: 0;
-    padding: 0;
-    list-style: none;
-  }
 
-  &__item {
-    text-transform: capitalize;
-    font-size: 20px;
-    color: #1a5982;
-    font-weight: 700;
-  }
-}
-</style>
+
+<style lang="scss"></style>

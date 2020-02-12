@@ -1,7 +1,7 @@
 import Vue from "vue";
 import Router from "vue-router";
-import Skills from "./components/Skills.vue";
-import About from "./components/About.vue";
+import Categories from "./components/categories.vue";
+import Category from "./components/category.vue";
 
 Vue.use(Router);
 
@@ -9,13 +9,13 @@ export default new Router({
   routes: [
     {
       path: "/",
-      name: "skills",
-      component: Skills
+      name: "Categories",
+      component: Categories
     },
     {
-      path: "/about",
-      name: "about",
-      component: About
+      path: "/category/:subject",
+      name: "category",
+      component: Category,
     }
   ]
 });

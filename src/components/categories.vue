@@ -3,11 +3,13 @@
     <div class="container">
       <div class="categories">
         <ul class="categories__list">
-          <Category
+          <router-link
+            :to="{ name: 'category', params: { subject: category } }"
             v-for="(category, index) in this.categories"
             :key="index"
-            :category="category"
-          />
+            class="categories__item"
+            >{{ category }}</router-link
+          >
         </ul>
       </div>
     </div>
@@ -15,17 +17,21 @@
 </template>
 
 <script>
-import Category from "./category.vue";
-
 export default {
   name: "MainBody",
   components: {
-    Category
+    // Category
   },
   data() {
     return {
       activities: [],
-      categories: []
+      categories: [],
+
+      test2: {
+        hello: "hello",
+        goodbye: "goodbye"
+      },
+      test: "hello"
     };
   },
 
@@ -41,7 +47,7 @@ export default {
   },
 
   mounted() {
-    fetch("https://data.test/index.php/wp-json/markers/v1/post")
+    fetch("https://data.test/index.php/wp-json/markers/v1/post/")
       .then(response => response.json())
       .then(jsonResponse => {
         this.activities = jsonResponse.map(item => {
@@ -56,6 +62,9 @@ export default {
         this.filterDuplicateCategories(this.activities);
       });
   }
+
+  // create another endpoint which returns the translations speicifc to that subject
+
 };
 </script>
 
@@ -64,5 +73,22 @@ export default {
   margin: 0;
   padding-top: 40px;
   list-style: none;
+
+  &__list {
+    display: flex;
+    justify-content: space-around;
+
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  &__item {
+    text-transform: capitalize;
+    font-size: 20px;
+    color: #1a5982;
+    font-weight: 700;
+    text-decoration: none;
+  }
 }
 </style>
