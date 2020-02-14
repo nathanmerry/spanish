@@ -10,6 +10,10 @@
           }"
           class="category__list"
         >
+
+
+
+
           <div
             v-for="(phrase, index) in this.phrases"
             :key="index"
@@ -18,9 +22,13 @@
               'category__item--inactive': phrase.isInactive
             }"
           >
-            <!-- <h3>Phrase {{ index + 1 }}</h3> -->
             <li class="category__phrase">{{ phrase.phrases.english }}</li>
             <li>{{ phrase.phrases.spanish }}</li>
+            <form @submit="checkForm">
+              <input v-model="answer.userInput" placeholder="edit me" />
+              <button v-on:click="isAnswerCorrect">Submit</button>
+            </form>
+            <p>{{ answer.validationMessage }}</p>
           </div>
         </div>
         <div
@@ -31,22 +39,27 @@
         >
           You have finished
         </div>
-        <button
-          class="category__btn"
-          v-on:click="
-            getDisplayPhraseIndex(), clearLastPhrase(), showNextPhrase()
-          "
-        >
-          {{ phraseButtonText }}
-        </button>
+
+        <NextPhraseButton
+          v-bind:hasStartedGame="this.hasStartedGame"
+          v-bind:displayButton="this.displayShowNextButton"
+          v-on:click.native="beginGame()"
+        />
       </div>
     </div>
+    <div style="height: 500px;"></div>
   </div>
 </template>
 
 <script>
+import NextPhraseButton from "./nextphrasebtn.vue";
+import helpers from "../utils/helpers.js";
+
 export default {
   name: "Category",
+  components: {
+    NextPhraseButton
+  },
 
   data() {
     return {
@@ -56,24 +69,20 @@ export default {
       finishedContainer: { isActive: false, isInactive: true },
       alreadyCalled: [],
       position: null,
-      phraseButtonText: "Begin game"
+      phraseButtonText: "Begin game",
+      answer: {
+        userInput: "",
+        correct: null,
+        validationMessage: ""
+      },
+      hasStartedGame: false,
+      displayShowNextButton: true
     };
   },
 
   methods: {
-    randomNumber(length) {
-      return Math.floor(Math.random() * length);
-    },
-
-    displayFinishedMessage() {
-      this.phrasesContainer.isActive = false;
-      this.phrasesContainer.isInactive = true;
-      this.finishedContainer.isActive = true;
-      this.finishedContainer.isInactive = false;
-    },
-
     getDisplayPhraseIndex() {
-      let randomNumber = this.randomNumber(this.phrases.length);
+      let randomNumber = helpers.randomNumber(this.phrases.length);
       if (this.alreadyCalled.length >= this.phrases.length) {
         this.displayFinishedMessage();
       } else if (this.alreadyCalled.includes(randomNumber)) {
@@ -84,17 +93,68 @@ export default {
       }
     },
 
+    beginGame() {
+      this.hasStartedGame = true;
+      this.getDisplayPhraseIndex();
+      this.clearLastPhrase();
+      this.showNextPhrase();
+    },
+
     clearLastPhrase() {
       this.phrases.map(phrase => {
         phrase.isActive = false;
         phrase.isInactive = true;
       });
+      this.answer.userInput = "";
+      this.answer.validationMessage = "";
     },
 
     showNextPhrase() {
       this.phraseButtonText = "Show Next Phrase";
       this.phrases[this.position].isActive = true;
       this.phrases[this.position].isInactive = false;
+      this.displayShowNextButton = false;
+    },
+
+    isAnswerCorrect() {
+      if (
+        this.answer.userInput === this.phrases[this.position].phrases.spanish
+      ) {
+        this.getAnswerMessage(true);
+        this.displayShowNextButton = true;
+      } else {
+        this.getAnswerMessage(false);
+      }
+    },
+
+    getAnswerMessage(isCorrect) {
+      return isCorrect
+        ? (this.answer.validationMessage = "Correct!")
+        : (this.answer.validationMessage = "Incorrect!");
+    },
+
+    displayFinishedMessage() {
+      this.phrasesContainer.isActive = false;
+      this.phrasesContainer.isInactive = true;
+      this.finishedContainer.isActive = true;
+      this.finishedContainer.isInactive = false;
+    },
+
+    checkForm: function(e) {
+      if (this.name && this.age) {
+        return true;
+      }
+
+      this.errors = [];
+
+      if (!this.name) {
+        this.errors.push("Name required.");
+      }
+      if (!this.age) {
+        this.errors.push("Age required.");
+      }
+
+      e.preventDefault();
     }
   },
 
@@ -170,9 +230,6 @@ export default {
   }
 
   &__btn {
-    position: absolute;
-    right: 0;
-    top: 0;
   }
 }
 </style>

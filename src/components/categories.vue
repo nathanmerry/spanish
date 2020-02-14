@@ -8,8 +8,9 @@
             v-for="(category, index) in this.categories"
             :key="index"
             class="categories__item"
-            >{{ category }}</router-link
           >
+            <div v-if="category">{{ category }}</div>
+          </router-link>
         </ul>
       </div>
     </div>
@@ -44,14 +45,13 @@ export default {
     fetch("https://data.test/wp-json/wp/v2/categories")
       .then(response => response.json())
       .then(jsonResponse => {
-        this.categories = jsonResponse.map(category => {
-          if (category.name != "Uncategorized") {
-            console.log(category.name);
+        this.categories = jsonResponse
+          .filter(category => {
+            return category.name !== "Uncategorized";
+          })
+          .map(category => {
             return category.name;
-          } else {
-            console.log("uncategorized");
-          }
-        });
+          });
       });
   }
 
