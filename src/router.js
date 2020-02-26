@@ -2,6 +2,8 @@ import Vue from "vue";
 import Router from "vue-router";
 import Categories from "./components/categories.vue";
 import Category from "./components/category.vue";
+import inputGame from "./components/inputGame.vue";
+import mulitpleChoice from "./components/mulitpleChoice.vue";
 
 Vue.use(Router);
 
@@ -15,7 +17,18 @@ export default new Router({
     {
       path: "/category/:subject",
       name: "category",
-      component: Category,
+      component: Category
+    },
+    {
+      path: "/category/:subject/inputgame",
+      name: "inputgame",
+      component: inputGame
+      
+    },
+    {
+      path: "/category/:subject/mulitplechoice",
+      name: "mulitplechoice",
+      component: mulitpleChoice
     }
   ]
 });

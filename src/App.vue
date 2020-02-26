@@ -7,6 +7,7 @@
 </template>
 
 <script>
+
 // import TopTitle from "./components/title.vue";
 // import NavBar from "./components/navbar.vue";
 // import MainBody from "./components/mainbody.vue";
