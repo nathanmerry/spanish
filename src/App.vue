@@ -1,38 +1,42 @@
 <template>
-  <div id="app">
-    <TopTitle />
-    <NavBar />
+  <div class="app" id="app">
+    <!-- <TopTitle />
+    <NavBar /> -->
     <router-view />
   </div>
 </template>
 
 <script>
-import TopTitle from "./components/title.vue";
-import NavBar from "./components/navbar.vue";
-// import TanguageData from "./utils/apicall.js";
+// import TopTitle from "./components/title.vue";
+// import NavBar from "./components/navbar.vue";
 // import MainBody from "./components/mainbody.vue";
 
 export default {
   name: "App",
   components: {
-    TopTitle,
-    NavBar
-    // MainBody
+    // TopTitle,
+    // NavBar
   },
 
   data() {
     return {
       test: []
     };
-  }
+  },
+
+  
 };
 </script>
 
 <style lang="scss">
+html,
+.app {
+  height: 100%;
+}
 body {
+  height: 100%;
   margin: 0;
   padding: 0;
-  background-color: #fdbb4333;
   font-family: Roboto, sans-serif;
 
   .main p,

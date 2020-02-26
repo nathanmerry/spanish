@@ -1,7 +1,8 @@
 <template>
-  <div id="mainbody" class="mainbody">
+  <div id="mainbody" class="categories">
     <div class="container">
-      <div class="categories">
+      <div class="categories__wrapper">
+        <h1 class="categories__header">Choose your category!</h1>
         <ul class="categories__list">
           <router-link
             :to="{ name: 'category', params: { subject: category } }"
@@ -30,17 +31,6 @@ export default {
     };
   },
 
-  methods: {
-    // filterDuplicateCategories(activitiesObject) {
-    //   let duplicateCategories = [];
-    //   activitiesObject.map(item => {
-    //     duplicateCategories.push(item.category);
-    //   });
-    //   let uniqueCategories = [...new Set(duplicateCategories)];
-    //   this.categories = uniqueCategories;
-    // }
-  },
-
   mounted() {
     fetch("https://data.test/wp-json/wp/v2/categories")
       .then(response => response.json())
@@ -61,9 +51,15 @@ export default {
 
 <style lang="scss">
 .categories {
-  margin: 0;
-  padding-top: 40px;
-  list-style: none;
+  &__wrapper {
+    margin: 0;
+    padding-top: 40px;
+  }
+
+  &__header {
+    padding-bottom: 40px;
+    text-align: center;
+  }
 
   &__list {
     display: flex;
@@ -81,5 +77,7 @@ export default {
     font-weight: 700;
     text-decoration: none;
   }
+
+  
 }
 </style>
