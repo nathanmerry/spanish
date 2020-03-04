@@ -2,18 +2,16 @@
   <section class="validation">
     <div v-if="correct != null" :class="{ 'validation--correct': correct }">
       <div class="container">
-        <div class="validation__wrapper" v-if="correct">
-          <div class="validation__icon">
-            &#10003;
+        <div class="validation__wrapper">
+          <div class="validation__mark">
+            <div v-html="text.symbol" class="validation__icon"></div>
+            <div class="validation__message">
+              {{ text.validation }}
+            </div>
           </div>
-          <div class="validation__message">
-            Your Answer is Correct
-          </div>
-        </div>
-        <div v-else class="validation__wrapper">
-          <div class="validation__icon">X</div>
-          <div class="validation__message">
-            Your Answer is Incorrect
+          <div class="validation__advice">
+            <strong>Meaning:</strong>
+            {{ correctSolution }}
           </div>
         </div>
       </div>
@@ -26,7 +24,8 @@ export default {
   name: "Validation",
 
   props: {
-    hasSubmitedRightAnswer: Boolean
+    hasSubmitedRightAnswer: Boolean,
+    phrases: Array
   },
 
   data() {
@@ -51,6 +50,23 @@ export default {
     hasSubmitedRightAnswer: function() {
       this.answerValidationDisplay(this.hasSubmitedRightAnswer);
     }
+  },
+
+  computed: {
+    correctSolution() {
+      return this.phrases[0].spanish;
+    },
+
+    text() {
+      if (this.correct) {
+        return {
+          validation: "correct",
+          symbol: "&#10003"
+        };
+      } else {
+        return { validation: "incorrect", symbol: "x" };
+      }
+    }
   }
 };
 </script>
@@ -62,7 +78,6 @@ export default {
   width: 100%;
   // padding: 10px 0;
   background: #e74c3c;
-  text-align: center;
   color: white;
 
   &--correct {
@@ -70,9 +85,15 @@ export default {
   }
 
   &__wrapper {
+    // display: flex;
+    // align-items: center;
+    // padding: 15px 0;
+  }
+
+  &__mark {
     display: flex;
     align-items: center;
-    padding: 15px 0;
+    padding-bottom: 20px;
   }
 
   &__icon {
@@ -83,6 +104,10 @@ export default {
 
   &__message {
     font-size: 24px;
+  }
+
+  &__advice {
+    text-align: left;
   }
 }
 </style>

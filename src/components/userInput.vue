@@ -1,23 +1,18 @@
 <template>
   <div v-if="qa" class="qa">
     <div class="container">
-      <div class="qa__header">Mark the correct translation:</div>
+      <div class="qa__header">
+        Type the translation for the following phrase
+      </div>
       <div class="qa__question-phrase">
         {{ this.qa[0].title }}
       </div>
+      <input type="text" v-model="userInput" />
       <button
-        v-for="(answer, index) in qa"
-        v-bind:key="index"
-        class="qa__answer"
-        :class="{
-          'qa__answer--active': qa[shuffledIndex[index] - 1].isActive
-        }"
-        v-on:click="getUserAnswer(qa[shuffledIndex[index] - 1])"
+        v-if="hasSubmitedRightAnswer === null"
+        v-on:click="getUserAnswer(userInput)"
       >
-        <div class="qa__answer-index">{{ index + 1 }}</div>
-        <div class="qa__answer-text">
-          {{ qa[shuffledIndex[index] - 1].spanish }}
-        </div>
+        Submit
       </button>
     </div>
   </div>
@@ -25,7 +20,7 @@
 
 <script>
 export default {
-  name: "Questions",
+  name: "userInput",
 
   props: {
     qa: Array,
@@ -34,49 +29,26 @@ export default {
 
   data() {
     return {
-      shuffledIndex: [],
-      correctAnswers: []
+      correctAnswers: [],
+      userInput: "",
+      submittedAnswerNo: 0
     };
   },
 
   methods: {
     getUserAnswer(answer) {
+      this.submittedAnswerNo += 1;
       if (this.hasSubmitedRightAnswer === null) {
-        if (answer.title === this.qa[0].title) {
+        if (answer === this.qa[0].title) {
           this.correctAnswers.push(1);
           this.$emit("hasSubmitedRightAnswer", true);
+        } else if (this.submittedAnswerNo < 2) {
+          this.$emit("hasSubmitedRightAnswer", null);
         } else {
           this.$emit("hasSubmitedRightAnswer", false);
         }
       }
-    },
-
-    getshuffledIndex() {
-      var arr = [];
-      while (arr.length < this.qa.length) {
-        var r = Math.floor(Math.random() * this.qa.length) + 1;
-        if (arr.indexOf(r) === -1) arr.push(r);
-      }
-      return arr;
-    },
-
-    activateButton(bIndex) {
-      this.qa.map((question, qIndex) => {
-        if (bIndex === qIndex) {
-          this.qa[this.shuffledIndex[qIndex] - 1].isActive = true;
-        }
-      });
     }
-  },
-
-  watch: {
-    qa: function() {
-      this.shuffledIndex = this.getshuffledIndex();
-    }
-  },
-
-  created() {
-    this.$emit("hasSubmitedRightAnswer", null);
   }
 };
 </script>

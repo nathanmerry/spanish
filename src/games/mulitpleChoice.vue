@@ -9,15 +9,24 @@
       v-bind:hasSubmitedRightAnswer="hasSubmitedRightAnswer"
       v-on:hasSubmitedRightAnswer="getUserAnswer($event)"
     />
+
+    <FinishedMessage
+      v-bind:phrases="qa"
+      v-bind:correctAnswers="correctAnswers"
+      v-bind:gameLength="gameLength"
+    />
+
     <Phrase2
       phraseAmount="3"
       v-bind:category="theSubject"
       v-bind:hasSubmitedRightAnswer="hasSubmitedRightAnswer"
       v-on:sendPhrases="getPhrases($event)"
       v-on:apiCall="getGameLength($event)"
-      v-on:resetUserAnswer="resetUserAnswer($event)"
     />
-    <Validation v-bind:hasSubmitedRightAnswer="hasSubmitedRightAnswer" />
+    <Validation
+      v-bind:hasSubmitedRightAnswer="hasSubmitedRightAnswer"
+      v-bind:phrases="qa"
+    />
   </div>
 </template>
 
@@ -26,6 +35,7 @@ import Phrase2 from "../components/phrases2.vue";
 import Questions from "../components/questions.vue";
 import ProgressBar from "../components/progressbar.vue";
 import Validation from "../components/validation.vue";
+import FinishedMessage from "../components/finishedMessage.vue";
 
 export default {
   name: "multipleChoice",
@@ -33,7 +43,8 @@ export default {
     Phrase2,
     Questions,
     ProgressBar,
-    Validation
+    Validation,
+    FinishedMessage
   },
 
   data() {
@@ -41,7 +52,9 @@ export default {
       theSubject: this.$route.params.subject,
       qa: [],
       hasSubmitedRightAnswer: null,
-      clickedGetPhraseAmount: 0
+      clickedGetPhraseAmount: 0,
+      gameLength: null,
+      correctAnswers: 0
     };
   },
 
@@ -68,6 +81,10 @@ export default {
 
     getUserAnswer: function(answer) {
       this.hasSubmitedRightAnswer = answer;
+
+      if (this.hasSubmitedRightAnswer === true) {
+        this.correctAnswers += 1;
+      }
     }
   },
 

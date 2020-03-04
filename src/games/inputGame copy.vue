@@ -60,12 +60,10 @@
 </template>
 
 <script>
-import NextPhraseButton from "./nextphrasebtn.vue";
-import Phrase from "./phrase.vue";
+import NextPhraseButton from "../components/nextphrasebtn.vue";
+import Phrase from "../components/phrase.vue";
+import ProgressBar from "../components/progressbar.vue";
 import helpers from "../utils/helpers.js";
-import ProgressBar from "./progressbar.vue";
-
-// import Validation from "./validation.vue";
 
 export default {
   name: "InputGame",
