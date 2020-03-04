@@ -1,31 +1,14 @@
 <template>
   <div class="app" id="app">
-    <!-- <TopTitle />
-    <NavBar /> -->
     <router-view />
   </div>
 </template>
 
 <script>
 
-// import TopTitle from "./components/title.vue";
-// import NavBar from "./components/navbar.vue";
-// import MainBody from "./components/mainbody.vue";
-
 export default {
   name: "App",
-  components: {
-    // TopTitle,
-    // NavBar
-  },
-
-  data() {
-    return {
-      test: []
-    };
-  },
-
-  
+  components: {}
 };
 </script>
 

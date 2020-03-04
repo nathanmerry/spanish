@@ -2,7 +2,7 @@
   <div class="viewbar">
     <router-link
       class="viewbar__exit-link"
-      :to="{ name: 'category', params: { subject: routerName } }"
+      :to="{ name: 'category', params: { subject: routeName } }"
       >&#10006;</router-link
     >
     <div :style="getPercetage" class="viewbar__progressbar"></div>
@@ -15,11 +15,15 @@ export default {
 
   props: {
     loadingPercentage: Number,
-    routerName: String
+    routeName: String
   },
   computed: {
     getPercetage() {
-      return `transform: ScaleX(${this.loadingPercentage})`;
+      if (this.loadingPercentage) {
+        return `transform: ScaleX(${this.loadingPercentage})`;
+      } else {
+        return `transform: ScaleX(0)`;
+      }
     }
   }
 };

@@ -3,16 +3,16 @@
     <div class="container">
       <h1 class="category__title">Choose your game!</h1>
       <router-link
-        :to="{ name: 'inputgame', params: { subject: the_subject } }"
+        :to="{ name: 'inputgame' }"
+        class="category__link"
       >
         Input Game
       </router-link>
       <router-link
-        :to="{ name: 'mulitplechoice', params: { subject: the_subject } }"
+        :to="{ name: 'mulitplechoice' }"
         class="category__link"
-        :phrases="phrases"
       >
-        Typing Game
+        Mulitple Choice
       </router-link>
       <router-view />
     </div>

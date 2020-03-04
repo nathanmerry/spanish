@@ -1,13 +1,6 @@
 <template>
   <div class="category">
-    <div class="category__viewbar">
-      <router-link
-        class="category__exit-link"
-        :to="{ name: 'category', params: { subject: the_subject } }"
-        >&#10006;</router-link
-      >
-      <ProgressBar v-bind:loadingPercentage="completedPercentage" />
-    </div>
+    <ProgressBar v-bind:loadingPercentage="completedPercentage" />
 
     <div class="category__title-container">
       <div class="container">
@@ -67,14 +60,10 @@
 </template>
 
 <script>
-import Vue from 'vue';
-import VueStash from 'vue-stash';
-// 
 import NextPhraseButton from "./nextphrasebtn.vue";
 import Phrase from "./phrase.vue";
 import helpers from "../utils/helpers.js";
 import ProgressBar from "./progressbar.vue";
-
 
 // import Validation from "./validation.vue";
 
@@ -84,7 +73,6 @@ export default {
     NextPhraseButton,
     Phrase,
     ProgressBar
-    // Validation
   },
 
   data() {
@@ -234,13 +222,6 @@ export default {
   position: relative;
   overflow: hidden;
   height: 100%;
-
-  &__viewbar {
-    display: flex;
-    margin: 5px 0 40px 0;
-    align-items: center;
-    padding: 0 10px;
-  }
 
   &__exit-link {
     margin-right: 10px;
