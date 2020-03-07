@@ -1,18 +1,15 @@
 <template>
   <div class="category">
     <div class="container">
-      <h1 class="category__title">Choose your game!</h1>
-      <router-link
-        :to="{ name: 'inputgame' }"
-        class="category__link"
-      >
-        Input Game
+      <router-link :to="{ name: 'Categories' }" class="category__link">
+        <img src="../assets/back-arrow.png" alt="" class="back" />
       </router-link>
-      <router-link
-        :to="{ name: 'mulitplechoice' }"
-        class="category__link"
-      >
-        Mulitple Choice
+      <h1 class="category__title">Choose your game!</h1>
+      <router-link :to="{ name: 'mulitplechoice' }" class="category__link">
+        Level 1
+      </router-link>
+      <router-link :to="{ name: 'inputgame' }" class="category__link">
+        Level 2
       </router-link>
       <router-view />
     </div>
@@ -54,8 +51,6 @@ export default {
 
 <style lang="scss">
 .category {
-  // display: flex;
-  // flex-direction: column;
   position: relative;
   overflow: hidden;
   height: 100%;
@@ -67,5 +62,10 @@ export default {
   &__link {
     margin-right: 40px;
   }
+}
+
+.back {
+  width: 30px;
+  padding-top: 10px;
 }
 </style>

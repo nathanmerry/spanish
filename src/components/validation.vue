@@ -1,15 +1,15 @@
 <template>
   <section class="validation">
-    <div v-if="correct != null" :class="{ 'validation--correct': correct }">
+    <div v-if="hasSubmitedRightAnswer != null" :class="layout.style">
       <div class="container">
         <div class="validation__wrapper">
           <div class="validation__mark">
-            <div v-html="text.symbol" class="validation__icon"></div>
+            <div v-html="layout.symbol" class="validation__icon"></div>
             <div class="validation__message">
-              {{ text.validation }}
+              {{ layout.validation }}
             </div>
           </div>
-          <div class="validation__advice">
+          <div v-if="layout.hint" class="validation__advice">
             <strong>Meaning:</strong>
             {{ correctSolution }}
           </div>
@@ -24,7 +24,7 @@ export default {
   name: "Validation",
 
   props: {
-    hasSubmitedRightAnswer: Boolean,
+    hasSubmitedRightAnswer: String,
     phrases: Array
   },
 
@@ -32,18 +32,6 @@ export default {
     return {
       correct: null
     };
-  },
-
-  methods: {
-    answerValidationDisplay(answerValidation) {
-      if (answerValidation === true) {
-        this.correct = true;
-      } else if (answerValidation === false) {
-        this.correct = false;
-      } else {
-        this.correct = null;
-      }
-    }
   },
 
   watch: {
@@ -57,14 +45,30 @@ export default {
       return this.phrases[0].spanish;
     },
 
-    text() {
-      if (this.correct) {
+    layout() {
+      if (this.hasSubmitedRightAnswer === "correct") {
         return {
           validation: "correct",
-          symbol: "&#10003"
+          symbol: "&#10003",
+          hint: true,
+          style: "validation--correct"
+        };
+      } else if (this.hasSubmitedRightAnswer === "incorrect") {
+        return {
+          validation: "incorrect - on to the next phrase",
+          symbol: "x",
+          hint: true,
+          style: "validation--incorrect"
+        };
+      } else if (this.hasSubmitedRightAnswer === "try-again") {
+        return {
+          validation: "incorrect - try again",
+          symbol: "x",
+          hint: false,
+          style: "validation--try-again"
         };
       } else {
-        return { validation: "incorrect", symbol: "x" };
+        return null;
       }
     }
   }
@@ -84,10 +88,12 @@ export default {
     background: #2ecc71;
   }
 
+  &--try-again {
+    background: #e67e22;
+  }
+
   &__wrapper {
-    // display: flex;
-    // align-items: center;
-    // padding: 15px 0;
+    padding: 15px 0;
   }
 
   &__mark {
@@ -97,6 +103,8 @@ export default {
   }
 
   &__icon {
+    padding: 2px 7px;
+    margin-right: 10px;
     border: 1px solid white;
     border-radius: 100%;
     font-size: 24px;

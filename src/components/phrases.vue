@@ -2,7 +2,7 @@
   <div class="phrases2">
     <div class="container">
       <button
-        v-if="displayBtn != null"
+        v-if="displayBtn"
         v-on:click="sendPhrases"
         class="phrases2__button"
       >
@@ -22,7 +22,7 @@ export default {
   props: {
     phraseAmount: String,
     category: String,
-    hasSubmitedRightAnswer: Boolean
+    hasSubmitedRightAnswer: String
   },
 
   data() {
@@ -30,13 +30,16 @@ export default {
       calledAnswerIndexes: [],
       index: [],
       nextPhraseText: "Begin",
-      displayBtn: true
+      displayBtn: true,
+      passedPhrases: null
     };
   },
 
   methods: {
     getPhraseIndex() {
       let answersArray = [];
+
+      console.log(this.phrases);
 
       while (answersArray.length < this.phraseAmount) {
         var r = helpers.randomNumber(this.phrases.length);
@@ -79,24 +82,40 @@ export default {
       this.nextPhraseText = "Next Phrase";
       this.getPhrases();
       this.$emit("sendPhrases", this.passedPhrases);
+    },
+
+    shouldDisplayBtn(answer) {
+      if (answer === "correct") {
+        this.displayBtn = true;
+      } else if (answer === "incorrect") {
+        this.displayBtn = true;
+      } else if (answer === "try-again") {
+        this.displayBtn = false;
+      } else if (answer === null) {
+        this.displayBtn = false;
+      }
     }
   },
 
   created() {
     // call API
     TanguageApi.requestPhrases(this.category)
-      .then(phrases => (this.phrases = phrases))
+      .then(phrases => {
+        this.phrases = phrases;
+        console.log('created')
+        console.log(this.phrases);
+      })
       .then(() => this.$emit("apiCall", this.phrases.length));
   },
 
   watch: {
     hasSubmitedRightAnswer: function() {
-      this.displayBtn = this.hasSubmitedRightAnswer;
+      this.shouldDisplayBtn(this.hasSubmitedRightAnswer);
     }
   },
 
   updated() {
-    this.displayBtn = this.hasSubmitedRightAnswer;
+    this.shouldDisplayBtn(this.hasSubmitedRightAnswer);
   }
 };
 </script>
@@ -109,7 +128,6 @@ export default {
     display: inline;
     border-radius: 5px;
     background: #2980b9;
-    /* border: 2px solid; */
     color: white;
   }
 }

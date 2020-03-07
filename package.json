@@ -15,7 +15,8 @@
     "google-tts-api": "0.0.4",
     "vue": "^2.6.11",
     "vue-router": "^3.1.5",
-    "vue-stash": "^2.0.1-beta"
+    "vue-stash": "^2.0.1-beta",
+    "vue-text-to-speech": "^1.0.6"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.2.0",

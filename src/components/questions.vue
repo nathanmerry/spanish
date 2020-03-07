@@ -2,34 +2,42 @@
   <div v-if="qa" class="qa">
     <div class="container">
       <div class="qa__header">Mark the correct translation:</div>
-      <div class="qa__question-phrase">
-        {{ this.qa[0].title }}
+      <div class="qa__question">
+        <div class="qa__question-text">{{ this.qa[0].title }}</div>
       </div>
-      <button
+      <div
         v-for="(answer, index) in qa"
         v-bind:key="index"
-        class="qa__answer"
-        :class="{
-          'qa__answer--active': qa[shuffledIndex[index] - 1].isActive
-        }"
-        v-on:click="getUserAnswer(qa[shuffledIndex[index] - 1])"
+        class="qa__answer-wrap"
       >
-        <div class="qa__answer-index">{{ index + 1 }}</div>
-        <div class="qa__answer-text">
-          {{ qa[shuffledIndex[index] - 1].spanish }}
-        </div>
-      </button>
+        <button
+          class="qa__answer-btn"
+          :class="{
+            'qa__answer--active': qa[shuffledIndex[index] - 1].isActive
+          }"
+          v-on:click="getUserAnswer(qa[shuffledIndex[index] - 1])"
+        >
+          <div class="qa__answer-index">{{ index + 1 }}</div>
+          <div class="qa__answer-text">
+            {{ qa[shuffledIndex[index] - 1].spanish }}
+          </div>
+        </button>
+        <Speech :text="qa[shuffledIndex[index] - 1].spanish" />
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import Speech from "./speech.vue";
+
 export default {
   name: "Questions",
+  components: { Speech },
 
   props: {
     qa: Array,
-    hasSubmitedRightAnswer: Boolean
+    hasSubmitedRightAnswer: String
   },
 
   data() {
@@ -44,9 +52,9 @@ export default {
       if (this.hasSubmitedRightAnswer === null) {
         if (answer.title === this.qa[0].title) {
           this.correctAnswers.push(1);
-          this.$emit("hasSubmitedRightAnswer", true);
+          this.$emit("hasSubmitedRightAnswer", "correct");
         } else {
-          this.$emit("hasSubmitedRightAnswer", false);
+          this.$emit("hasSubmitedRightAnswer", "incorrect");
         }
       }
     },
@@ -88,18 +96,31 @@ export default {
     margin-bottom: 20px;
   }
 
-  &__question-phrase {
+  &__question {
+    display: flex;
+  }
+
+  &__question-text {
+    margin-right: 30px;
     margin-bottom: 50px;
     font-size: 20px;
     font-weight: 700;
   }
 
-  &__answer {
+  &__answer-wrap {
     display: flex;
     align-items: center;
+    justify-content: space-between;
     width: 100%;
     max-width: 500px;
-    margin-bottom: 20px;
+    padding-bottom: 20px;
+  }
+
+  &__answer-btn {
+    display: flex;
+    align-items: center;
+    width: 450px;
+    margin-right: 20px;
     padding: 10px;
     font-size: 20px;
     cursor: pointer;

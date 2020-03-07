@@ -21,9 +21,7 @@
 <script>
 export default {
   name: "MainBody",
-  components: {
-    // Category
-  },
+
   data() {
     return {
       activities: [],
@@ -63,21 +61,22 @@ export default {
 
   &__list {
     display: flex;
-    justify-content: space-around;
-
+    justify-content: space-between;
+    flex-wrap: wrap;
     margin: 0;
     padding: 0;
     list-style: none;
   }
 
   &__item {
+    width: 33.33%;
+    padding-bottom: 40px;
     text-transform: capitalize;
     font-size: 20px;
     color: #1a5982;
     font-weight: 700;
     text-decoration: none;
+    text-align: center;
   }
-
-  
 }
 </style>

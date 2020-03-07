@@ -16,7 +16,7 @@
       v-bind:gameLength="gameLength"
     />
 
-    <Phrase2
+    <Phrases
       phraseAmount="3"
       v-bind:category="theSubject"
       v-bind:hasSubmitedRightAnswer="hasSubmitedRightAnswer"
@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import Phrase2 from "../components/phrases2.vue";
+import Phrases from "../components/phrases.vue";
 import Questions from "../components/questions.vue";
 import ProgressBar from "../components/progressbar.vue";
 import Validation from "../components/validation.vue";
@@ -40,7 +40,7 @@ import FinishedMessage from "../components/finishedMessage.vue";
 export default {
   name: "multipleChoice",
   components: {
-    Phrase2,
+    Phrases,
     Questions,
     ProgressBar,
     Validation,
@@ -82,7 +82,7 @@ export default {
     getUserAnswer: function(answer) {
       this.hasSubmitedRightAnswer = answer;
 
-      if (this.hasSubmitedRightAnswer === true) {
+      if (this.hasSubmitedRightAnswer === "correct") {
         this.correctAnswers += 1;
       }
     }

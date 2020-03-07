@@ -1,7 +1,7 @@
 import Vue from "vue";
 import Router from "vue-router";
-import Categories from "./components/categories.vue";
-import Category from "./components/category.vue";
+import Categories from "./pages/categories.vue";
+import Category from "./pages/category.vue";
 import inputGame from "./games/inputGame.vue";
 import mulitpleChoice from "./games/mulitpleChoice.vue";
 

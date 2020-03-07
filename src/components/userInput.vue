@@ -9,7 +9,10 @@
       </div>
       <input type="text" v-model="userInput" />
       <button
-        v-if="hasSubmitedRightAnswer === null"
+        v-if="
+          hasSubmitedRightAnswer === null ||
+            hasSubmitedRightAnswer === 'try-again'
+        "
         v-on:click="getUserAnswer(userInput)"
       >
         Submit
@@ -38,15 +41,27 @@ export default {
   methods: {
     getUserAnswer(answer) {
       this.submittedAnswerNo += 1;
+      if (answer === this.qa[0].title) {
+        this.correctAnswers.push(1);
+        this.submittedAnswerNo = 0;
+        this.$emit("hasSubmitedRightAnswer", "correct");
+      } else if (this.submittedAnswerNo < 2) {
+        this.$emit("hasSubmitedRightAnswer", "try-again");
+      } else {
+        this.submittedAnswerNo = 0;
+        this.$emit("hasSubmitedRightAnswer", "incorrect");
+      }
+    },
+
+    getUserInput(input) {
+      this.userInput = input;
+    }
+  },
+
+  watch: {
+    hasSubmitedRightAnswer: function() {
       if (this.hasSubmitedRightAnswer === null) {
-        if (answer === this.qa[0].title) {
-          this.correctAnswers.push(1);
-          this.$emit("hasSubmitedRightAnswer", true);
-        } else if (this.submittedAnswerNo < 2) {
-          this.$emit("hasSubmitedRightAnswer", null);
-        } else {
-          this.$emit("hasSubmitedRightAnswer", false);
-        }
+        this.userInput = "";
       }
     }
   }
