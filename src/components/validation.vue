@@ -42,7 +42,7 @@ export default {
 
   computed: {
     correctSolution() {
-      return this.phrases[0].spanish;
+      return this.phrases[0].answer;
     },
 
     layout() {

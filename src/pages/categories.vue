@@ -13,6 +13,8 @@
             <div v-if="category">{{ category }}</div>
           </router-link>
         </ul>
+        <h2>Authors note</h2>
+        <p>much more development for this site is planned</p>
       </div>
     </div>
   </div>

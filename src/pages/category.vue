@@ -4,12 +4,18 @@
       <router-link :to="{ name: 'Categories' }" class="category__link">
         <img src="../assets/back-arrow.png" alt="" class="back" />
       </router-link>
-      <h1 class="category__title">Choose your game!</h1>
-      <router-link :to="{ name: 'mulitplechoice' }" class="category__link">
+      <h1 class="category__title">Choose your level!</h1>
+      <router-link :to="{ name: 'level1' }" class="category__link">
         Level 1
       </router-link>
-      <router-link :to="{ name: 'inputgame' }" class="category__link">
+      <router-link :to="{ name: 'level2' }" class="category__link">
         Level 2
+      </router-link>
+      <router-link :to="{ name: 'level3' }" class="category__link">
+        Level 3
+      </router-link>
+      <router-link :to="{ name: 'level4' }" class="category__link">
+        Level 4
       </router-link>
       <router-view />
     </div>

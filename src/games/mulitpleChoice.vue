@@ -20,6 +20,7 @@
       phraseAmount="3"
       v-bind:category="theSubject"
       v-bind:hasSubmitedRightAnswer="hasSubmitedRightAnswer"
+      v-bind:language="language"
       v-on:sendPhrases="getPhrases($event)"
       v-on:apiCall="getGameLength($event)"
     />
@@ -38,13 +39,17 @@ import Validation from "../components/validation.vue";
 import FinishedMessage from "../components/finishedMessage.vue";
 
 export default {
-  name: "multipleChoice",
+  name: "MultipleChoice",
   components: {
     Phrases,
     Questions,
     ProgressBar,
     Validation,
     FinishedMessage
+  },
+
+  props: {
+    language: Object
   },
 
   data() {

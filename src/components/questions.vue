@@ -12,17 +12,14 @@
       >
         <button
           class="qa__answer-btn"
-          :class="{
-            'qa__answer--active': qa[shuffledIndex[index] - 1].isActive
-          }"
           v-on:click="getUserAnswer(qa[shuffledIndex[index] - 1])"
         >
           <div class="qa__answer-index">{{ index + 1 }}</div>
           <div class="qa__answer-text">
-            {{ qa[shuffledIndex[index] - 1].spanish }}
+            {{ qa[shuffledIndex[index] - 1].answer }}
           </div>
         </button>
-        <Speech :text="qa[shuffledIndex[index] - 1].spanish" />
+        <Speech :text="qa[shuffledIndex[index] - 1].answer" />
       </div>
     </div>
   </div>
@@ -37,7 +34,9 @@ export default {
 
   props: {
     qa: Array,
-    hasSubmitedRightAnswer: String
+    hasSubmitedRightAnswer: String,
+    languageType: String,
+    phraseAmount: String
   },
 
   data() {

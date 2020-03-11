@@ -20,6 +20,7 @@ export default {
   name: "Phrase2",
 
   props: {
+    language: Object,
     phraseAmount: String,
     category: String,
     hasSubmitedRightAnswer: String
@@ -31,16 +32,14 @@ export default {
       index: [],
       nextPhraseText: "Begin",
       displayBtn: true,
-      passedPhrases: null
+      test: []
     };
   },
 
   methods: {
+    // getS three random numbers - item 0 in the array will always be unique
     getPhraseIndex() {
       let answersArray = [];
-
-      console.log(this.phrases);
-
       while (answersArray.length < this.phraseAmount) {
         var r = helpers.randomNumber(this.phrases.length);
         if (answersArray.indexOf(r) === -1) answersArray.push(r);
@@ -56,34 +55,54 @@ export default {
       }
     },
 
+    // gets phrases from phrases array using the indexes of getPhraseIndex() - item 0 is always the correct answer
     getPhrases() {
       let phraseIndexes = this.getPhraseIndex();
       let wrongPhrases = [];
-      this.passedPhrases = [];
+      this.unstructuredPhrases = [];
 
       if (phraseIndexes) {
         phraseIndexes.map((phraseIndex, index) => {
           if (index === 0) {
             let correctPhrase = this.phrases[phraseIndex];
-            this.passedPhrases.push(correctPhrase);
+            this.unstructuredPhrases.push(correctPhrase);
           } else {
             wrongPhrases.push(this.phrases[phraseIndex]);
           }
         });
         wrongPhrases.map(wrongphrase => {
-          this.passedPhrases.push(wrongphrase);
+          this.unstructuredPhrases.push(wrongphrase);
+        });
+      } else {
+        this.unstructuredPhrases = false;
+      }
+    },
+
+    // returns the sames phrases but in the structure of question answer
+    returnPhraseQaStructure() {
+      this.getPhrases();
+      if (this.unstructuredPhrases) {
+        this.passedPhrases = this.unstructuredPhrases.map(item => {
+          return {
+            title: item[this.language.question],
+            question: item[this.language.question],
+            answer: item[this.language.answer],
+            possibleAnswers: item[this.language.answer]
+          };
         });
       } else {
         this.passedPhrases = false;
       }
     },
 
+    // emits the phrases to parent
     sendPhrases: function() {
       this.nextPhraseText = "Next Phrase";
-      this.getPhrases();
+      this.returnPhraseQaStructure();
       this.$emit("sendPhrases", this.passedPhrases);
     },
 
+    // calculates whether to display the get phrases btn based on if the users answer is correct
     shouldDisplayBtn(answer) {
       if (answer === "correct") {
         this.displayBtn = true;
@@ -98,12 +117,10 @@ export default {
   },
 
   created() {
-    // call API
+    // call API to get the phrases
     TanguageApi.requestPhrases(this.category)
       .then(phrases => {
         this.phrases = phrases;
-        console.log('created')
-        console.log(this.phrases);
       })
       .then(() => this.$emit("apiCall", this.phrases.length));
   },

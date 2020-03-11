@@ -11,6 +11,7 @@ const TanguageApi = {
                 title: item.post_title.trim(),
                 english: item.acf.name_en.trim(),
                 spanish: item.acf.name_es.trim(),
+                possibleAnswerEs: eval(item.acf.possible_answers_es),
                 isActive: false
               };
             });

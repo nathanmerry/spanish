@@ -22,6 +22,7 @@
       game="input"
       v-bind:category="theSubject"
       v-bind:hasSubmitedRightAnswer="hasSubmitedRightAnswer"
+      v-bind:language="language"
       v-on:sendPhrases="getPhrases($event)"
       v-on:apiCall="getGameLength($event)"
     />
@@ -43,6 +44,10 @@ import FinishedMessage from "../components/finishedMessage.vue";
 export default {
   name: "InputGame",
   components: { Phrases, UserInput, Validation, ProgressBar, FinishedMessage },
+
+  props: {
+    language: Object
+  },
 
   data() {
     return {

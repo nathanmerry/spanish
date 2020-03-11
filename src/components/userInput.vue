@@ -41,7 +41,12 @@ export default {
   methods: {
     getUserAnswer(answer) {
       this.submittedAnswerNo += 1;
-      if (answer === this.qa[0].title) {
+      
+
+      if (
+        answer === this.qa[0].answer 
+        // || this.qa[0].possibleAnswerEs.includes(answer)
+      ) {
         this.correctAnswers.push(1);
         this.submittedAnswerNo = 0;
         this.$emit("hasSubmitedRightAnswer", "correct");
@@ -64,6 +69,12 @@ export default {
         this.userInput = "";
       }
     }
+  },
+
+  created() {
+    var myArr = ["hello", "goodbye", "welcome"];
+
+    console.log(myArr.includes("helloo"));
   }
 };
 </script>
