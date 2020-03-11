@@ -1,31 +1,26 @@
 <template>
-  <div id="app">
-    <Header />
-    <Menu />
+  <div class="app" id="app">
+    <router-view />
   </div>
 </template>
 
 <script>
-import Header from "./components/header.vue";
-import Menu from "./components/menu.vue";
 
 export default {
   name: "App",
-  components: {
-    Header,
-    Menu
-  }
+  components: {}
 };
 </script>
 
 <style lang="scss">
-$colorA: #fdbb43;
-$colorB: #1e90ff;
-
+html,
+.app {
+  height: 100%;
+}
 body {
+  height: 100%;
   margin: 0;
   padding: 0;
-  background-color: #f3f3f3;
   font-family: Roboto, sans-serif;
 
   .main p,
@@ -75,6 +70,7 @@ body {
 
   .container {
     max-width: 1000px;
+    padding: 0 20px;
     margin: 0 auto;
     position: relative;
   }

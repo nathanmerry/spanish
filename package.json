@@ -8,8 +8,15 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@google-cloud/text-to-speech": "^2.2.0",
     "core-js": "^3.6.4",
-    "vue": "^2.6.11"
+    "express": "^4.17.1",
+    "google-auth-library": "^5.10.0",
+    "google-tts-api": "0.0.4",
+    "vue": "^2.6.11",
+    "vue-router": "^3.1.5",
+    "vue-stash": "^2.0.1-beta",
+    "vue-text-to-speech": "^1.0.6"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.2.0",
