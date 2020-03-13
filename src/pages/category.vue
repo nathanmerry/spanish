@@ -17,6 +17,12 @@
       <router-link :to="{ name: 'level4' }" class="category__link">
         Level 4
       </router-link>
+      <router-link :to="{ name: 'level5' }" class="category__link">
+        Level 5
+      </router-link>
+      <router-link :to="{ name: 'level6' }" class="category__link">
+        Level 6
+      </router-link>
       <router-view />
     </div>
   </div>
@@ -62,11 +68,19 @@ export default {
   height: 100%;
 
   &__title {
-    margin: 40px 0;
+    margin: 20px 0 40px 0;
+    font-size: 2rem;
+
+    @media only screen and (min-width: 700px) {
+      margin: 40px 0;
+    }
   }
 
   &__link {
+    display: inline-block;
     margin-right: 40px;
+    margin-bottom: 20px;
+    font-size: 1.1rem;
   }
 }
 

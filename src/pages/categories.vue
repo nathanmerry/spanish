@@ -13,8 +13,28 @@
             <div v-if="category">{{ category }}</div>
           </router-link>
         </ul>
-        <h2>Authors note</h2>
-        <p>much more development for this site is planned</p>
+
+        <div class="read-me">
+          <h2 class="read-me__header" v-on:click="openReadMe">#Read Me</h2>
+          <div v-if="readeMeOpen" class="read-me__body">
+            <h3>Bugs</h3>
+            <p>
+              There is currently a bug where by when you click begin, the begin
+              button dissapears but the game doesn't actually appear. Although
+              most of the time it doesn't happen it is annoying so I am working
+              on fixing it - for now when this happens just keep refreshing your
+              page until it starts working again.
+            </p>
+            <h3>Things to note</h3>
+            <p>
+              Although the game where you have to type your answer works, you
+              must make sure your answer is 100% correct as there is no room for
+              error - this includes extra spaces, capital leters, anything. If
+              it doesn't match 100% it will mark as incorrect - this is being
+              worked on
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -27,12 +47,23 @@ export default {
   data() {
     return {
       activities: [],
-      categories: []
+      categories: [],
+      readeMeOpen: false
     };
   },
 
+  methods: {
+    openReadMe() {
+      if (this.readeMeOpen === false) {
+        this.readeMeOpen = true;
+      } else {
+        this.readeMeOpen = false;
+      }
+    }
+  },
+
   mounted() {
-    fetch("https://data.test/wp-json/wp/v2/categories")
+    fetch("https://nathanmerry.co.uk/tanguagedata/wp-json/wp/v2/categories")
       .then(response => response.json())
       .then(jsonResponse => {
         this.categories = jsonResponse
@@ -74,11 +105,28 @@ export default {
     width: 33.33%;
     padding-bottom: 40px;
     text-transform: capitalize;
-    font-size: 20px;
+    font-size: 1.2rem;
     color: #1a5982;
     font-weight: 700;
     text-decoration: none;
     text-align: center;
+  }
+}
+
+.read-me {
+  max-width: 350px;
+  font-size: 0.7em;
+  border: 1px solid #1abc9c;
+  border-radius: 5px;
+  background: #80808014;
+
+  &__header {
+    padding: 10px;
+    cursor: pointer;
+  }
+
+  &__body {
+    padding: 10px;
   }
 }
 </style>

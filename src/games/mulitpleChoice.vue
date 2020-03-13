@@ -4,9 +4,12 @@
       v-bind:routeName="theSubject"
       v-bind:loadingPercentage="this.completedGamePercent"
     />
-    <Questions
+
+    <MultipleSelect
       v-bind:qa="qa"
       v-bind:hasSubmitedRightAnswer="hasSubmitedRightAnswer"
+      v-bind:language="language"
+      v-bind:questionType="questionType"
       v-on:hasSubmitedRightAnswer="getUserAnswer($event)"
     />
 
@@ -33,7 +36,7 @@
 
 <script>
 import Phrases from "../components/phrases.vue";
-import Questions from "../components/questions.vue";
+import MultipleSelect from "../components/multipleSelect.vue";
 import ProgressBar from "../components/progressbar.vue";
 import Validation from "../components/validation.vue";
 import FinishedMessage from "../components/finishedMessage.vue";
@@ -42,13 +45,14 @@ export default {
   name: "MultipleChoice",
   components: {
     Phrases,
-    Questions,
+    MultipleSelect,
     ProgressBar,
     Validation,
     FinishedMessage
   },
 
   props: {
+    questionType: String,
     language: Object
   },
 
@@ -107,7 +111,7 @@ export default {
 
   &__exit-link {
     margin-right: 10px;
-    font-size: 30px;
+    font-size: 1.8rem;
     text-decoration: none;
     color: #2980b9;
   }
@@ -125,12 +129,6 @@ export default {
 
   &__inactive {
     display: none;
-  }
-
-  &__title-container {
-    text-align: center;
-    text-transform: capitalize;
-    font-size: 40px;
   }
 
   &__title {
@@ -169,11 +167,11 @@ export default {
 
   &__task {
     padding-bottom: 20px;
-    font-size: 20px;
+    font-size: 1.8rem;
   }
 
   &__phrase {
-    font-size: 30px;
+    font-size: 1.8rem;
   }
 }
 </style>

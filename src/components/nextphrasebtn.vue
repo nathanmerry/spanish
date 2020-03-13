@@ -34,7 +34,7 @@ export default {
   display: flex;
 
   &__button {
-    font-size: 20px;
+    font-size: 1.2rem;
     padding: 10px 20px;
     display: inline;
     border-radius: 5px;

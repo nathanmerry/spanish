@@ -1,6 +1,6 @@
 <template>
   <div class="level">
-    <InputGame v-bind:language="language" questionType="text"/>
+    <InputGame v-bind:language="language" questionType="audio" />
   </div>
 </template>
 
@@ -8,7 +8,7 @@
 import InputGame from "../games/inputGame.vue";
 
 export default {
-  name: "Level1",
+  name: "Level6",
   components: {
     InputGame
   },

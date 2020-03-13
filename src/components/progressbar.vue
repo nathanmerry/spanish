@@ -1,11 +1,15 @@
 <template>
   <div class="viewbar">
-    <router-link
-      class="viewbar__exit-link"
-      :to="{ name: 'category', params: { subject: routeName } }"
-      >&#10006;</router-link
-    >
-    <div :style="getPercetage" class="viewbar__progressbar"></div>
+    <div class="container">
+      <div class="viewbar__wrap">
+        <router-link
+          class="viewbar__exit-link"
+          :to="{ name: 'category', params: { subject: routeName } }"
+          >&#10006;</router-link
+        >
+        <div :style="getPercetage" class="viewbar__progressbar"></div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -31,10 +35,15 @@ export default {
 
 <style lang="scss">
 .viewbar {
-  display: flex;
-  margin: 5px 0 40px 0;
-  align-items: center;
-  padding: 0 10px;
+  &__wrap {
+    display: flex;
+    margin: 5px 0 20px 0;
+    align-items: center;
+
+    @media only screen and (min-width: 700px) {
+      margin: 5px 0 40px 0;
+    }
+  }
 
   &__progressbar {
     width: 100%;
@@ -46,7 +55,7 @@ export default {
 
   &__exit-link {
     margin-right: 10px;
-    font-size: 30px;
+    font-size: 1.8rem;
     text-decoration: none;
     color: #2980b9;
   }

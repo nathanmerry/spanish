@@ -8,6 +8,8 @@
     <UserInput
       v-bind:qa="qa"
       v-bind:hasSubmitedRightAnswer="hasSubmitedRightAnswer"
+      v-bind:questionType="questionType"
+      v-bind:language="language"
       v-on:hasSubmitedRightAnswer="getUserAnswer($event)"
     />
 
@@ -46,6 +48,7 @@ export default {
   components: { Phrases, UserInput, Validation, ProgressBar, FinishedMessage },
 
   props: {
+    questionType: String,
     language: Object
   },
 
@@ -67,7 +70,6 @@ export default {
 
     getCompletedPercentage() {
       this.completedGamePercent = this.clickedGetPhraseAmount / this.gameLength;
-      console.log(this.completedGamePercent);
       this.clickedGetPhraseAmount += 1;
     },
 

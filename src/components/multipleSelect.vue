@@ -3,7 +3,9 @@
     <div class="container">
       <div class="qa__header">Mark the correct translation:</div>
       <div class="qa__question">
-        <div class="qa__question-text">{{ this.qa[0].title }}</div>
+        <div class="qa__question-text">
+          <Question v-bind:type="questionType" v-bind:text="this.qa[0].title" />
+        </div>
       </div>
       <div
         v-for="(answer, index) in qa"
@@ -19,7 +21,10 @@
             {{ qa[shuffledIndex[index] - 1].answer }}
           </div>
         </button>
-        <Speech :text="qa[shuffledIndex[index] - 1].answer" />
+        <Speech
+          v-if="language.answer != 'english'"
+          :text="qa[shuffledIndex[index] - 1].answer"
+        />
       </div>
     </div>
   </div>
@@ -27,16 +32,17 @@
 
 <script>
 import Speech from "./speech.vue";
+import Question from "./question.vue";
 
 export default {
-  name: "Questions",
-  components: { Speech },
+  name: "MultipleSelect",
+  components: { Speech, Question },
 
   props: {
     qa: Array,
     hasSubmitedRightAnswer: String,
-    languageType: String,
-    phraseAmount: String
+    language: Object,
+    questionType: String
   },
 
   data() {
@@ -91,7 +97,7 @@ export default {
 <style lang="scss">
 .qa {
   &__header {
-    font-size: 30px;
+    font-size: 1.8rem;
     margin-bottom: 20px;
   }
 
@@ -101,9 +107,12 @@ export default {
 
   &__question-text {
     margin-right: 30px;
-    margin-bottom: 50px;
-    font-size: 20px;
+    font-size: 1.2rem;
     font-weight: 700;
+
+    @media only screen and (min-width: 700px) {
+      margin-bottom: 50px;
+    }
   }
 
   &__answer-wrap {
@@ -112,7 +121,11 @@ export default {
     justify-content: space-between;
     width: 100%;
     max-width: 500px;
-    padding-bottom: 20px;
+    padding-bottom: 10px;
+
+    @media only screen and (min-width: 700px) {
+      padding-bottom: 20px;
+    }
   }
 
   &__answer-btn {
@@ -121,7 +134,7 @@ export default {
     width: 450px;
     margin-right: 20px;
     padding: 10px;
-    font-size: 20px;
+    font-size: 1.2rem;
     cursor: pointer;
     background: none;
     border: 2px solid #00000040;

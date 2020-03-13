@@ -1,6 +1,6 @@
 <template>
   <div class="level">
-    <MultipleChoice v-bind:language="language" />
+    <MultipleChoice v-bind:language="language" questionType="text" />
   </div>
 </template>
 

@@ -1,16 +1,16 @@
 <template>
   <div class="level">
-    <InputGame v-bind:language="language" questionType="text"/>
+    <MultipleChoice v-bind:language="language" questionType="audio" />
   </div>
 </template>
 
 <script>
-import InputGame from "../games/inputGame.vue";
+import MultipleChoice from "../games/mulitpleChoice.vue";
 
 export default {
-  name: "Level1",
+  name: "Level5",
   components: {
-    InputGame
+    MultipleChoice
   },
 
   created() {

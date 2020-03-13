@@ -115,7 +115,6 @@ export default {
       }
     }
   },
-
   created() {
     // call API to get the phrases
     TanguageApi.requestPhrases(this.category)
@@ -140,7 +139,7 @@ export default {
 <style lang="scss">
 .phrases2 {
   &__button {
-    font-size: 20px;
+    font-size: 1.2rem;
     padding: 10px 20px;
     display: inline;
     border-radius: 5px;

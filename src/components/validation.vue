@@ -80,7 +80,6 @@ export default {
   position: absolute;
   bottom: 0;
   width: 100%;
-  // padding: 10px 0;
   background: #e74c3c;
   color: white;
 
@@ -93,13 +92,20 @@ export default {
   }
 
   &__wrapper {
-    padding: 15px 0;
+    padding: 10px 0;
+    @media only screen and (min-width: 700px) {
+      padding-bottom: 25px;
+    }
   }
 
   &__mark {
     display: flex;
     align-items: center;
-    padding-bottom: 20px;
+    padding-bottom: 10px;
+
+    @media only screen and (min-width: 700px) {
+      padding-bottom: 20px;
+    }
   }
 
   &__icon {
@@ -107,14 +113,15 @@ export default {
     margin-right: 10px;
     border: 1px solid white;
     border-radius: 100%;
-    font-size: 24px;
+    font-size: 1.3rem;
   }
 
   &__message {
-    font-size: 24px;
+    font-size: 1.3rem;
   }
 
   &__advice {
+    font-size: 1rem;
     text-align: left;
   }
 }

@@ -1,33 +1,42 @@
 <template>
-  <div v-if="qa" class="qa">
+  <div v-if="qa" class="userInput">
     <div class="container">
-      <div class="qa__header">
-        Type the translation for the following phrase
+      <div class="userInput__header">
+        Type this in
+        <span class="userInput__header--language">{{ language.answer }}</span>
       </div>
-      <div class="qa__question-phrase">
-        {{ this.qa[0].title }}
+      <div class="userInput__question">
+        <Question v-bind:type="questionType" v-bind:text="this.qa[0].title" />
       </div>
-      <input type="text" v-model="userInput" />
-      <button
-        v-if="
-          hasSubmitedRightAnswer === null ||
-            hasSubmitedRightAnswer === 'try-again'
-        "
-        v-on:click="getUserAnswer(userInput)"
-      >
-        Submit
-      </button>
+      <div class="userInput__answer">
+        <textarea type="text" v-model="userInput" class="userInput__input" />
+        <button
+          v-if="
+            hasSubmitedRightAnswer === null ||
+              hasSubmitedRightAnswer === 'try-again'
+          "
+          v-on:click="getUserAnswer(userInput)"
+          class="userInput__submit"
+        >
+          Submit
+        </button>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import Question from "./question.vue";
+
 export default {
   name: "userInput",
+  components: { Question },
 
   props: {
     qa: Array,
-    hasSubmitedRightAnswer: Boolean
+    hasSubmitedRightAnswer: Boolean,
+    questionType: String,
+    language: Object
   },
 
   data() {
@@ -41,10 +50,8 @@ export default {
   methods: {
     getUserAnswer(answer) {
       this.submittedAnswerNo += 1;
-      
-
       if (
-        answer === this.qa[0].answer 
+        answer === this.qa[0].answer
         // || this.qa[0].possibleAnswerEs.includes(answer)
       ) {
         this.correctAnswers.push(1);
@@ -69,62 +76,45 @@ export default {
         this.userInput = "";
       }
     }
-  },
-
-  created() {
-    var myArr = ["hello", "goodbye", "welcome"];
-
-    console.log(myArr.includes("helloo"));
   }
 };
 </script>
 
 <style lang="scss">
-.qa {
+.userInput {
   &__header {
-    font-size: 30px;
+    font-size: 1.8rem;
     margin-bottom: 20px;
-  }
-
-  &__question-phrase {
-    margin-bottom: 50px;
-    font-size: 20px;
-    font-weight: 700;
   }
 
   &__answer {
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    align-items: flex-end;
+    max-width: 400px;
+    font-size: 1.2rem;
+  }
+
+  &__input {
+    resize: none;
     width: 100%;
-    max-width: 500px;
+    min-height: 120px;
     margin-bottom: 20px;
-    padding: 10px;
-    font-size: 20px;
-    cursor: pointer;
-    background: none;
-    border: 2px solid #00000040;
-    border-radius: 10px;
-
-    &--active {
-      border: 2px solid orange;
-      background: #ffa5002e;
-    }
-
-    &:hover {
-      transform: scale(1.02);
-    }
+    padding: 5px 10px;
+    background: #8080801c;
+    border: 1px solid grey;
+    border-radius: 3px;
+    font-size: 1.1rem;
+    line-height: 25px;
+    outline: none;
   }
 
-  &__answer-index {
-    border: 1px solid #00000040;
-    padding: 5px 7px;
-    border-radius: 7px;
-    color: #0000008f;
-  }
-
-  &__answer-text {
-    flex: 1;
-    text-align: center;
+  &__submit {
+    padding: 5px 20px;
+    background: #1abc9c;
+    border-radius: 3px;
+    font-size: 1.2rem;
+    color: whitesmoke;
   }
 }
 </style>

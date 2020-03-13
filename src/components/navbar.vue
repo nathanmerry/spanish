@@ -63,7 +63,7 @@ export default {
 
   &__item {
     padding: 10px;
-    font-size: 20px;
+    font-size: 1.2rem;
     cursor: pointer;
 
     &--active {

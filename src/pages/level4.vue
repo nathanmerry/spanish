@@ -1,6 +1,6 @@
 <template>
   <div class="level">
-    <InputGame v-bind:language="language" />
+    <InputGame v-bind:language="language" questionType="text" />
   </div>
 </template>
 

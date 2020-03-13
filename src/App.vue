@@ -5,7 +5,6 @@
 </template>
 
 <script>
-
 export default {
   name: "App",
   components: {}
@@ -16,7 +15,13 @@ export default {
 html,
 .app {
   height: 100%;
+  font-size: 0.8rem;
+
+  @media only screen and (min-width: 700px) {
+    font-size: 1rem;
+  }
 }
+
 body {
   height: 100%;
   margin: 0;

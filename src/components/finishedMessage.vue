@@ -37,7 +37,7 @@ export default {
 <style lang="scss">
 .finishedMessage {
   &__text {
-    font-size: 30px;
+    font-size: 1.8rem;
     padding-bottom: 20px;
   }
 }

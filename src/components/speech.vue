@@ -30,8 +30,8 @@ export default {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 50px;
-    height: 50px;
+    width: 3rem;
+    height: 3rem;
     padding: 10px;
     border-radius: 100%;
   }

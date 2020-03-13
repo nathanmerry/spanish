@@ -7,6 +7,8 @@ import Level1 from "./pages/level1.vue";
 import Level2 from "./pages/level2.vue";
 import Level3 from "./pages/level3.vue";
 import Level4 from "./pages/level4.vue";
+import Level5 from "./pages/level5.vue";
+import Level6 from "./pages/level6.vue";
 
 Vue.use(Router);
 
@@ -46,6 +48,16 @@ export default new Router({
       path: "/category/:subject/level-4",
       name: "level4",
       component: Level4
+    },
+    {
+      path: "/category/:subject/level-5",
+      name: "level5",
+      component: Level5
+    },
+    {
+      path: "/category/:subject/level-6",
+      name: "level6",
+      component: Level6
     }
   ]
 });
