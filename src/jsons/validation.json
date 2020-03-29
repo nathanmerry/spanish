@@ -1,0 +1,20 @@
+{
+  "correct": {
+    "validation": "correct",
+    "symbol": "&#10003",
+    "hint": true,
+    "style": "validation--correct"
+  },
+  "try-again": {
+    "validation": "incorrect - try again",
+    "symbol": "x",
+    "hint": false,
+    "style": "validation--try-again"
+  },
+  "incorrect": {
+    "validation": "incorrect - on to the next phrase",
+    "symbol": "x",
+    "hint": true,
+    "style": "validation--incorrect"
+  }
+}

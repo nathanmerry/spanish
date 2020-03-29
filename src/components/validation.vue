@@ -1,6 +1,6 @@
 <template>
   <section class="validation">
-    <div v-if="answerGrade != null" :class="layout.style">
+    <div v-if="answer != null" :class="layout.style">
       <div class="container">
         <div class="validation__wrapper">
           <div class="validation__mark">
@@ -11,7 +11,7 @@
           </div>
           <div v-if="layout.hint" class="validation__advice">
             <strong>Meaning:</strong>
-            {{ correctSolution }}
+            {{ answer.actual.answer }}
           </div>
         </div>
       </div>
@@ -20,51 +20,24 @@
 </template>
 
 <script>
+import validationMeta from "../jsons/validation.json";
+
 export default {
   name: "Validation",
 
   props: {
-    answerGrade: String,
-    phrases: Array
+    answer: Object
   },
 
   data() {
     return {
-      hello: "hello",
       correct: null
     };
   },
-  
-  computed: {
-    correctSolution() {
-      return this.phrases[0].answer;
-    },
 
+  computed: {
     layout() {
-      if (this.answerGrade === "correct") {
-        return {
-          validation: "correct",
-          symbol: "&#10003",
-          hint: true,
-          style: "validation--correct"
-        };
-      } else if (this.answerGrade === "incorrect") {
-        return {
-          validation: "incorrect - on to the next phrase",
-          symbol: "x",
-          hint: true,
-          style: "validation--incorrect"
-        };
-      } else if (this.answerGrade === "try-again") {
-        return {
-          validation: "incorrect - try again",
-          symbol: "x",
-          hint: false,
-          style: "validation--try-again"
-        };
-      } else {
-        return null;
-      }
+      return validationMeta[this.answer.grade];
     }
   }
 };

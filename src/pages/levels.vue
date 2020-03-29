@@ -9,7 +9,7 @@ import GameLayout from "../games/gameLayout.vue";
 import levelsInfo from "../levels.json";
 
 export default {
-  name: "allLevels",
+  name: "Levels",
   components: {
     GameLayout
   },

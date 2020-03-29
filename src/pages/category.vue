@@ -8,7 +8,7 @@
 
       <div v-for="(level, index) in levels" :key="index">
         <router-link
-          :to="{ name: `allLevels`, params: { level: `level${index + 1}` } }"
+          :to="{ name: `Levels`, params: { level: `level${index + 1}` } }"
           class="category__link"
         >
           {{ `level ${index + 1}` }}
@@ -35,7 +35,6 @@ export default {
   },
 
   mounted() {
-    console.log(levels);
     fetch("https://data.test/index.php/wp-json/markers/v1/post/")
       .then(response => response.json())
       .then(jsonResponse => {

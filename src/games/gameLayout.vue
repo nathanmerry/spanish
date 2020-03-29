@@ -2,8 +2,8 @@
   <div class="category">
     <main class="main">
       <ProgressBar
-        v-bind:routeName="theSubject"
-        v-bind:loadingPercentage="completedGamePercent"
+        :routeName="theSubject"
+        :loadingPercentage="completedGamePercent"
       />
 
       <GameContainer
@@ -12,13 +12,10 @@
         :qa="qa"
         :answerGrade="answerGrade"
         v-on:getAnswerGrade="getAnswerGrade($event)"
+        v-on:getAnswer="getAnswer($event)"
       />
 
-      <FinishedMessage
-        v-bind:phrases="qa"
-        v-bind:correctAnswers="correctAnswers"
-        v-bind:gameLength="gameLength"
-      />
+      <Review :phrases="qa" :answer="answer" :gameLength="gameLength" />
 
       <Phrases
         :additionalPhrases="gameInfo.additionalPhrases"
@@ -30,7 +27,7 @@
       />
     </main>
 
-    <Validation v-bind:answerGrade="answerGrade" v-bind:phrases="qa" />
+    <Validation :answer="answer" :phrases="qa" />
   </div>
 </template>
 
@@ -38,7 +35,7 @@
 import Phrases from "../components/phrases.vue";
 import ProgressBar from "../components/progressbar.vue";
 import Validation from "../components/validation.vue";
-import FinishedMessage from "../components/finishedMessage.vue";
+import Review from "../components/review.vue";
 import GameContainer from "./gameContainer";
 import games from "../games.json";
 
@@ -49,7 +46,7 @@ export default {
     GameContainer,
     ProgressBar,
     Validation,
-    FinishedMessage
+    Review
   },
 
   props: {
@@ -61,6 +58,7 @@ export default {
       theSubject: this.$route.params.subject,
       qa: [],
       answerGrade: null,
+      answer: null,
       clickedGetPhraseAmount: 0,
       gameLength: null,
       correctAnswers: 0,
@@ -77,6 +75,7 @@ export default {
     getPhrases: function(phrases) {
       this.getCompletedPercentage();
       this.answerGrade = null;
+      this.answer = null;
 
       if (phrases) {
         this.qa = phrases;
@@ -87,6 +86,10 @@ export default {
 
     getGameLength: function(gameLength) {
       this.gameLength = gameLength;
+    },
+
+    getAnswer: function(answer) {
+      this.answer = answer;
     },
 
     getAnswerGrade: function(grade) {
@@ -100,7 +103,7 @@ export default {
 
   computed: {
     gameInfo() {
-      return games[this.levelInfo.game]
+      return games[this.levelInfo.game];
     }
   },
 

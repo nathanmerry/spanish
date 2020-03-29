@@ -1,55 +1,36 @@
 <template>
-  <section v-if="qa" class="multipleSelect">
-    <div class="container">
-      <div class="multipleSelect__wrap">
-        <div class="multipleSelect__header">
-          Mark the correct translation:
+  <section class="multipleSelect">
+    <div
+      v-for="(answer, index) in qa"
+      :key="index"
+      class="multipleSelect__answer-wrap"
+    >
+      <button
+        class="multipleSelect__answer-btn"
+        v-on:click="emitUserAnswer(qa[shuffledIndex[index] - 1].answer)"
+      >
+        <div class="multipleSelect__answer-index">{{ index + 1 }}</div>
+        <div class="multipleSelect__answer-text">
+          {{ qa[shuffledIndex[index] - 1].answer }}
         </div>
-        <div class="multipleSelect__question">
-          <div class="multipleSelect__question-text">
-            <Question
-              :type="questionType"
-              :phrase="this.qa[0].question"
-              :language="language"
-            />
-          </div>
-        </div>
-        <div
-          v-for="(answer, index) in qa"
-          :key="index"
-          class="multipleSelect__answer-wrap"
-        >
-          <button
-            class="multipleSelect__answer-btn"
-            v-on:click="getUserAnswer(qa[shuffledIndex[index] - 1])"
-          >
-            <div class="multipleSelect__answer-index">{{ index + 1 }}</div>
-            <div class="multipleSelect__answer-text">
-              <div v-if="language.question === 'english'">
-                {{ qa[shuffledIndex[index] - 1].answer }}
-              </div>
-              <div v-else>
-                {{ qa[shuffledIndex[index] - 1].title }}
-              </div>
-            </div>
-          </button>
-          <Speech
-            v-if="language.answer != 'english'"
-            :text="qa[shuffledIndex[index] - 1].answer"
-          />
-        </div>
-      </div>
+      </button>
+      <Speech
+        v-if="language.answer != 'english'"
+        :text="qa[shuffledIndex[index] - 1].answer"
+      />
     </div>
   </section>
 </template>
 
 <script>
-import Speech from "./speech.vue";
-import Question from "./question.vue";
+import Speech from "../components/speech";
 
 export default {
-  name: "MultipleSelect",
-  components: { Speech, Question },
+  name: "MultipleChoice",
+
+  components: {
+    Speech
+  },
 
   props: {
     qa: Array,
@@ -66,14 +47,9 @@ export default {
   },
 
   methods: {
-    getUserAnswer(answer) {
+    emitUserAnswer(answer) {
       if (this.answerGrade === null) {
-        if (answer.title === this.qa[0].title) {
-          this.correctAnswers.push(1);
-          this.$emit("answerGrade", "correct");
-        } else {
-          this.$emit("answerGrade", "incorrect");
-        }
+        this.$emit("getUserAnswer", answer);
       }
     },
 
@@ -102,6 +78,7 @@ export default {
   },
 
   created() {
+    this.shuffledIndex = this.getshuffledIndex();
     this.$emit("answerGrade", null);
   }
 };

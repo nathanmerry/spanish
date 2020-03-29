@@ -26,7 +26,7 @@
 <script>
 import games from "../games.json";
 import Question from "../components/question.vue";
-import MultipleChoice from "./multiplechoice2.vue";
+import MultipleChoice from "./multiplechoice.vue";
 import OpenEnded from "./openEnded.vue";
 
 export default {
@@ -53,22 +53,40 @@ export default {
   methods: {
     reviewUserAnswer(answer) {
       this.numSubmittedAnswers += 1;
+      let gradedAnswer;
 
       if (answer === this.qa[0].title) {
-        this.$emit("getAnswerGrade", "correct");
+        gradedAnswer = "correct";
       } else {
         if (this.numSubmittedAnswers < this.gameInfo.allowedAttempts) {
-          this.$emit("getAnswerGrade", "try-again");
+          gradedAnswer = "try-again";
         } else {
-          this.$emit("getAnswerGrade", "incorrect");
+          gradedAnswer = "incorrect";
         }
       }
+
+      this.answer = {
+        actual: this.qa[0],
+        chosen: answer,
+        grade: gradedAnswer
+      };
+
+      this.$emit("getAnswer", this.answer);
+      this.$emit("getAnswerGrade", this.answer.grade);
     }
   },
 
   computed: {
     gameHeader() {
-      return games[this.levelInfo.game].header;
+      if (this.levelInfo.game === "OpenEnded") {
+        return (
+          games[this.levelInfo.game].header +
+          " " +
+          this.levelInfo.language.answer
+        );
+      } else {
+        return games[this.levelInfo.game].header;
+      }
     },
 
     question() {
@@ -104,7 +122,10 @@ export default {
   &__header {
     font-size: 1.8rem;
     margin-bottom: 20px;
-    text-transform: capitalize;
+
+    &::first-letter {
+      text-transform: capitalize;
+    }
   }
 
   &__question {

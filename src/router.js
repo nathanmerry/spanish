@@ -2,7 +2,7 @@ import Vue from "vue";
 import Router from "vue-router";
 import Categories from "./pages/categories.vue";
 import Category from "./pages/category.vue";
-import allLevels from "./pages/allLevels.vue";
+import Levels from "./pages/levels.vue";
 
 Vue.use(Router);
 
@@ -20,8 +20,8 @@ export default new Router({
     },
     {
       path: "/category/:subject/:level",
-      name: "allLevels",
-      component: allLevels
+      name: "Levels",
+      component: Levels
     }
   ]
 });
