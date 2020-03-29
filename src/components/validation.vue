@@ -1,6 +1,6 @@
 <template>
   <section class="validation">
-    <div v-if="hasSubmitedRightAnswer != null" :class="layout.style">
+    <div v-if="answerGrade != null" :class="layout.style">
       <div class="container">
         <div class="validation__wrapper">
           <div class="validation__mark">
@@ -24,43 +24,38 @@ export default {
   name: "Validation",
 
   props: {
-    hasSubmitedRightAnswer: String,
+    answerGrade: String,
     phrases: Array
   },
 
   data() {
     return {
+      hello: "hello",
       correct: null
     };
   },
-
-  watch: {
-    hasSubmitedRightAnswer: function() {
-      this.answerValidationDisplay(this.hasSubmitedRightAnswer);
-    }
-  },
-
+  
   computed: {
     correctSolution() {
       return this.phrases[0].answer;
     },
 
     layout() {
-      if (this.hasSubmitedRightAnswer === "correct") {
+      if (this.answerGrade === "correct") {
         return {
           validation: "correct",
           symbol: "&#10003",
           hint: true,
           style: "validation--correct"
         };
-      } else if (this.hasSubmitedRightAnswer === "incorrect") {
+      } else if (this.answerGrade === "incorrect") {
         return {
           validation: "incorrect - on to the next phrase",
           symbol: "x",
           hint: true,
           style: "validation--incorrect"
         };
-      } else if (this.hasSubmitedRightAnswer === "try-again") {
+      } else if (this.answerGrade === "try-again") {
         return {
           validation: "incorrect - try again",
           symbol: "x",
@@ -77,8 +72,6 @@ export default {
 
 <style lang="scss">
 .validation {
-  position: absolute;
-  bottom: 0;
   width: 100%;
   background: #e74c3c;
   color: white;

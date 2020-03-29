@@ -25,6 +25,7 @@ function speak(text) {
   msg.volume = 1;
   msg.rate = 1;
   msg.pitch = 1;
+  msg.lang = "es-ES";
 
   const voices = speechSynthesis.getVoices();
 
@@ -34,7 +35,9 @@ function speak(text) {
 
   if (msg.voice === null) {
     msg.voice = voices.filter(voice => {
-      return voice.name == "Jorge";
+      if (voice.name == "Jorge") {
+        return voice.name == "Jorge";
+      }
     })[0];
   }
 

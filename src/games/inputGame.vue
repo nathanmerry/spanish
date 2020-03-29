@@ -1,38 +1,41 @@
 <template>
   <div class="category">
-    <ProgressBar
-      v-bind:routeName="theSubject"
-      v-bind:loadingPercentage="this.completedGamePercent"
-    />
+    <main class="main">
+      <ProgressBar
+        v-bind:routeName="theSubject"
+        v-bind:loadingPercentage="completedGamePercent"
+      />
 
-    <UserInput
-      v-bind:qa="qa"
-      v-bind:hasSubmitedRightAnswer="hasSubmitedRightAnswer"
-      v-bind:questionType="questionType"
-      v-bind:language="language"
-      v-on:hasSubmitedRightAnswer="getUserAnswer($event)"
-    />
+      <UserInput
+        v-bind:qa="qa"
+        v-bind:answerGrade="answerGrade"
+        v-bind:questionType="questionType"
+        v-bind:language="language"
+        v-on:answerGrade="getUserAnswer($event)"
+      />
 
-    <FinishedMessage
-      v-bind:phrases="qa"
-      v-bind:correctAnswers="correctAnswers"
-      v-bind:gameLength="gameLength"
-    />
+      <FinishedMessage
+        v-bind:phrases="qa"
+        v-bind:correctAnswers="correctAnswers"
+        v-bind:gameLength="gameLength"
+      />
 
-    <Phrases
-      phraseAmount="1"
-      game="input"
-      v-bind:category="theSubject"
-      v-bind:hasSubmitedRightAnswer="hasSubmitedRightAnswer"
-      v-bind:language="language"
-      v-on:sendPhrases="getPhrases($event)"
-      v-on:apiCall="getGameLength($event)"
-    />
-
-    <Validation
-      v-bind:hasSubmitedRightAnswer="hasSubmitedRightAnswer"
-      v-bind:phrases="qa"
-    />
+      <Phrases
+        additionalPhrases="0"
+        game="input"
+        v-bind:category="theSubject"
+        v-bind:answerGrade="answerGrade"
+        v-bind:language="language"
+        v-on:sendPhrases="getPhrases($event)"
+        v-on:apiCall="getGameLength($event)"
+      />
+    </main>
+    <div class="bottom-row">
+      <Validation
+        v-bind:answerGrade="answerGrade"
+        v-bind:phrases="qa"
+      />
+    </div>
   </div>
 </template>
 
@@ -56,10 +59,11 @@ export default {
     return {
       theSubject: this.$route.params.subject,
       qa: [],
-      hasSubmitedRightAnswer: null,
+      answerGrade: null,
       clickedGetPhraseAmount: 0,
       gameLength: null,
-      correctAnswers: 0
+      correctAnswers: 0,
+      completedGamePercent: 0
     };
   },
 
@@ -75,7 +79,7 @@ export default {
 
     getPhrases: function(phrases) {
       this.getCompletedPercentage();
-      this.hasSubmitedRightAnswer = null;
+      this.answerGrade = null;
       if (phrases) {
         this.qa = phrases;
       } else {
@@ -84,9 +88,9 @@ export default {
     },
 
     getUserAnswer: function(answer) {
-      this.hasSubmitedRightAnswer = answer;
+      this.answerGrade = answer;
 
-      if (this.hasSubmitedRightAnswer === "correct") {
+      if (this.answerGrade === "correct") {
         this.correctAnswers += 1;
       }
     },

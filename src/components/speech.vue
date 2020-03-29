@@ -1,9 +1,9 @@
 <template>
-  <div class="speech">
+  <section class="speech">
     <button v-on:click="speak(text)" class="speech__btn">
       <img class="speech__icon" src="../assets/speaker.png" alt="" />
     </button>
-  </div>
+  </section>
 </template>
 
 <script>
@@ -13,12 +13,19 @@ export default {
   name: "Speech",
 
   props: {
-    text: String
+    text: String,
+    speakOnCreate: Boolean
   },
 
   methods: {
     speak(text) {
       textToSpeech.speak(text);
+    }
+  },
+
+  created() {
+    if (this.speakOnCreate === true) {
+      this.speak(this.text);
     }
   }
 };

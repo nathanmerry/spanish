@@ -3,15 +3,15 @@
     <main class="main">
       <ProgressBar
         v-bind:routeName="theSubject"
-        v-bind:loadingPercentage="this.completedGamePercent"
+        v-bind:loadingPercentage="completedGamePercent"
       />
 
-      <MultipleSelect
-        v-bind:qa="qa"
-        v-bind:answerGrade="answerGrade"
-        v-bind:language="language"
-        v-bind:questionType="questionType"
-        v-on:answerGrade="getUserAnswer($event)"
+      <GameContainer
+        :levelInfo="levelInfo"
+        :gameInfo="gameInfo"
+        :qa="qa"
+        :answerGrade="answerGrade"
+        v-on:getAnswerGrade="getAnswerGrade($event)"
       />
 
       <FinishedMessage
@@ -21,42 +21,39 @@
       />
 
       <Phrases
-        additionalPhrases="2"
-        v-bind:category="theSubject"
-        v-bind:answerGrade="answerGrade"
-        v-bind:language="language"
+        :additionalPhrases="gameInfo.additionalPhrases"
+        :category="theSubject"
+        :answerGrade="answerGrade"
+        :language="levelInfo.language"
         v-on:sendPhrases="getPhrases($event)"
         v-on:apiCall="getGameLength($event)"
       />
     </main>
 
-    <Validation
-      v-bind:answerGrade="answerGrade"
-      v-bind:phrases="qa"
-    />
+    <Validation v-bind:answerGrade="answerGrade" v-bind:phrases="qa" />
   </div>
 </template>
 
 <script>
 import Phrases from "../components/phrases.vue";
-import MultipleSelect from "../components/multipleSelect.vue";
 import ProgressBar from "../components/progressbar.vue";
 import Validation from "../components/validation.vue";
 import FinishedMessage from "../components/finishedMessage.vue";
+import GameContainer from "./gameContainer";
+import games from "../games.json";
 
 export default {
-  name: "MultipleChoice",
+  name: "GameLayout",
   components: {
     Phrases,
-    MultipleSelect,
+    GameContainer,
     ProgressBar,
     Validation,
     FinishedMessage
   },
 
   props: {
-    questionType: String,
-    language: Object
+    levelInfo: Object
   },
 
   data() {
@@ -66,7 +63,8 @@ export default {
       answerGrade: null,
       clickedGetPhraseAmount: 0,
       gameLength: null,
-      correctAnswers: 0
+      correctAnswers: 0,
+      completedGamePercent: 0
     };
   },
 
@@ -91,12 +89,18 @@ export default {
       this.gameLength = gameLength;
     },
 
-    getUserAnswer: function(answer) {
-      this.answerGrade = answer;
+    getAnswerGrade: function(grade) {
+      this.answerGrade = grade;
 
       if (this.answerGrade === "correct") {
         this.correctAnswers += 1;
       }
+    }
+  },
+
+  computed: {
+    gameInfo() {
+      return games[this.levelInfo.game]
     }
   },
 

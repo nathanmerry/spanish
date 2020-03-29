@@ -1,5 +1,5 @@
 <template>
-  <div class="viewbar">
+  <section class="viewbar">
     <div class="container">
       <div class="viewbar__wrap">
         <router-link
@@ -10,7 +10,7 @@
         <div :style="getPercetage" class="viewbar__progressbar"></div>
       </div>
     </div>
-  </div>
+  </section>
 </template>
 
 <script>
@@ -37,6 +37,7 @@ export default {
 .viewbar {
   &__wrap {
     display: flex;
+
     margin: 5px 0 20px 0;
     align-items: center;
 

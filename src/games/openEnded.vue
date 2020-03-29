@@ -1,60 +1,43 @@
 <template>
   <section v-if="qa" class="userInput">
-    <div class="container">
-      <div class="userInput__header">
-        Type this in
-        <span class="userInput__header--language">{{ language.answer }}</span>
-      </div>
-      <div class="userInput__question">
-        <Question
-          :type="questionType"
-          :phrase="question"
-          :language="language"
-        />
-      </div>
-      <div class="userInput__answer">
-        <textarea
-          type="text"
-          v-model="userInput"
-          ref="userInputRef"
-          class="userInput__input"
-          v-on:input="getCursorPosition"
-          v-bind:placeholder="taskName"
-        />
-        <div class="userInput__buttons">
-          <div class="userInput__keybored">
-            <Keybored
-              v-if="language.answer != 'english'"
-              v-on:getLetter="getAccentedLetter"
-            />
-          </div>
-          <button
-            v-if="
-              answerGrade === null ||
-                answerGrade === 'try-again'
-            "
-            v-on:click="getUserAnswer(userInput)"
-            class="userInput__submit"
-          >
-            Submit
-          </button>
+    <div class="userInput__answer">
+      <textarea
+        type="text"
+        v-model="userInput"
+        ref="userInputRef"
+        class="userInput__input"
+        v-on:input="getCursorPosition"
+        v-bind:placeholder="taskName"
+      />
+      <div class="userInput__buttons">
+        <div class="userInput__keybored">
+          <Keybored
+            v-if="language.answer != 'english'"
+            v-on:getLetter="getAccentedLetter"
+          />
         </div>
+        <button
+          v-if="answerGrade === null || answerGrade === 'try-again'"
+          v-on:click="emitUserAnswer(userInput)"
+          class="userInput__submit"
+        >
+          Submit
+        </button>
       </div>
     </div>
   </section>
 </template>
 
 <script>
-import Question from "./question.vue";
-import Keybored from "./keybored.vue";
+import Keybored from "../components/keybored.vue";
 
 export default {
-  name: "userInput",
-  components: { Question, Keybored },
+  name: "OpenEnded",
+  components: { Keybored },
 
   props: {
     qa: Array,
-    answerGrade: Boolean,
+    answerGrade: String,
     questionType: String,
     language: Object
   },
@@ -63,10 +46,9 @@ export default {
     return {
       correctAnswers: [],
       userInput: "",
-      submittedAnswerNo: 0,
       inputCursorPosition: 0,
       start: 0,
-      end: 0
+      end: 0,
     };
   },
 
@@ -76,30 +58,11 @@ export default {
         .replace(/\s+/g, " ")
         .toLowerCase()
         .trim();
-      console.log(`'${phrase}'`);
       return phrase;
     },
 
-    emitUserAnswer(answer, correctPhrase) {
-      if (answer === correctPhrase) {
-        this.correctAnswers.push(1);
-        this.submittedAnswerNo = 0;
-        this.$emit("answerGrade", "correct");
-      } else if (this.submittedAnswerNo < 2) {
-        this.$emit("answerGrade", "try-again");
-      } else {
-        this.submittedAnswerNo = 0;
-        this.$emit("answerGrade", "incorrect");
-      }
-    },
-
-    getUserAnswer(answer) {
-      this.submittedAnswerNo += 1;
-
-      this.emitUserAnswer(
-        this.processPhrase(answer),
-        this.processPhrase(this.qa[0].answer)
-      );
+    emitUserAnswer(answer) {
+      this.$emit("getUserAnswer", answer);
     },
 
     getUserInput(input) {

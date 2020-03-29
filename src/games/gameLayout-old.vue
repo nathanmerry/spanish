@@ -3,16 +3,18 @@
     <main class="main">
       <ProgressBar
         v-bind:routeName="theSubject"
-        v-bind:loadingPercentage="this.completedGamePercent"
+        v-bind:loadingPercentage="completedGamePercent"
       />
 
-      <MultipleSelect
+      <component
+        v-bind:is="game"
         v-bind:qa="qa"
         v-bind:answerGrade="answerGrade"
         v-bind:language="language"
         v-bind:questionType="questionType"
         v-on:answerGrade="getUserAnswer($event)"
-      />
+      >
+      </component>
 
       <FinishedMessage
         v-bind:phrases="qa"
@@ -21,10 +23,10 @@
       />
 
       <Phrases
-        additionalPhrases="2"
-        v-bind:category="theSubject"
-        v-bind:answerGrade="answerGrade"
-        v-bind:language="language"
+        :additionalPhrases="additionalPhrases"
+        :category="theSubject"
+        :answerGrade="answerGrade"
+        :language="language"
         v-on:sendPhrases="getPhrases($event)"
         v-on:apiCall="getGameLength($event)"
       />
@@ -40,21 +42,24 @@
 <script>
 import Phrases from "../components/phrases.vue";
 import MultipleSelect from "../components/multipleSelect.vue";
+import userInput from "../components/userInput.vue";
 import ProgressBar from "../components/progressbar.vue";
 import Validation from "../components/validation.vue";
 import FinishedMessage from "../components/finishedMessage.vue";
 
 export default {
-  name: "MultipleChoice",
+  name: "GameLayout",
   components: {
     Phrases,
     MultipleSelect,
+    userInput,
     ProgressBar,
     Validation,
     FinishedMessage
   },
 
   props: {
+    game: String,
     questionType: String,
     language: Object
   },
@@ -66,7 +71,8 @@ export default {
       answerGrade: null,
       clickedGetPhraseAmount: 0,
       gameLength: null,
-      correctAnswers: 0
+      correctAnswers: 0,
+      completedGamePercent: 0
     };
   },
 
@@ -96,6 +102,19 @@ export default {
 
       if (this.answerGrade === "correct") {
         this.correctAnswers += 1;
+      }
+    }
+  },
+
+  computed: {
+    additionalPhrases() {
+      switch (this.game) {
+        case "MultipleSelect":
+          return 3;
+        case "userInput":
+          return 0;
+        default:
+          return 0;
       }
     }
   },

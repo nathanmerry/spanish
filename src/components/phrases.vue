@@ -1,15 +1,15 @@
 <template>
-  <div class="phrases2">
+  <section class="phrases2">
     <div class="container">
       <button
-        v-if="displayBtn"
+        v-if="displayButton"
         v-on:click="sendPhrases"
         class="phrases2__button"
       >
-        {{ nextPhraseText }}
+        {{ buttonText }}
       </button>
     </div>
-  </div>
+  </section>
 </template>
 
 <script>
@@ -17,121 +17,109 @@ import TanguageApi from "../utils/tanguage-api";
 import helpers from "../utils/helpers.js";
 
 export default {
-  name: "Phrase2",
+  name: "Phrases",
 
   props: {
     language: Object,
-    phraseAmount: String,
+    additionalPhrases: Number,
     category: String,
-    hasSubmitedRightAnswer: String
+    answerGrade: String
   },
 
   data() {
     return {
       calledAnswerIndexes: [],
       index: [],
-      nextPhraseText: "Begin",
-      displayBtn: true,
-      test: []
+      displayButton: false,
+      buttonText: "Begin game",
+      // phrases: [],
+      currentIndex: -1,
+      emitedPhrases: []
     };
   },
 
   methods: {
-    // getS three random numbers - item 0 in the array will always be unique
-    getPhraseIndex() {
-      let answersArray = [];
-      while (answersArray.length < this.phraseAmount) {
-        var r = helpers.randomNumber(this.phrases.length);
-        if (answersArray.indexOf(r) === -1) answersArray.push(r);
-      }
+    getAllPhrases(phrases) {
+      for (var a = [], i = 0; i < phrases.length; ++i) a[i] = i;
+      a = helpers.shuffleArr(a);
 
-      if (this.calledAnswerIndexes.length >= this.phrases.length) {
+      return a.map(index => {
+        return phrases[index];
+      });
+    },
+
+    structurePhrases(phrases) {
+      return phrases.map(phrase => {
+        return {
+          title: phrase.title,
+          question: phrase[this.language.question],
+          answer: phrase[this.language.answer],
+          possibleAnswers: phrase[this.language.answer]
+        };
+      });
+    },
+
+    getCurrentPhrases(phrases) {
+      this.currentIndex = this.currentIndex + 1;
+
+      if (this.currentIndex < phrases.length) {
+        this.emitedPhrases = [];
+
+        this.emitedPhrases.push(phrases[this.currentIndex]);
+
+        if (this.additionalPhrases > 0) {
+          helpers
+            .randomIndexes(
+              this.additionalPhrases,
+              this.phrases.length,
+              this.currentIndex
+            )
+            .forEach(addIndex => {
+              this.emitedPhrases.push(phrases[addIndex]);
+            });
+        }
+
+        return this.emitedPhrases;
+      } else {
         return false;
-      } else if (this.calledAnswerIndexes.includes(answersArray[0])) {
-        return this.getPhraseIndex();
-      } else {
-        this.calledAnswerIndexes.push(answersArray[0]);
-        return answersArray;
-      }
-    },
-
-    // gets phrases from phrases array using the indexes of getPhraseIndex() - item 0 is always the correct answer
-    getPhrases() {
-      let phraseIndexes = this.getPhraseIndex();
-      let wrongPhrases = [];
-      this.unstructuredPhrases = [];
-
-      if (phraseIndexes) {
-        phraseIndexes.map((phraseIndex, index) => {
-          if (index === 0) {
-            let correctPhrase = this.phrases[phraseIndex];
-            this.unstructuredPhrases.push(correctPhrase);
-          } else {
-            wrongPhrases.push(this.phrases[phraseIndex]);
-          }
-        });
-        wrongPhrases.map(wrongphrase => {
-          this.unstructuredPhrases.push(wrongphrase);
-        });
-      } else {
-        this.unstructuredPhrases = false;
-      }
-    },
-
-    // returns the sames phrases but in the structure of question answer
-    returnPhraseQaStructure() {
-      this.getPhrases();
-      if (this.unstructuredPhrases) {
-        this.passedPhrases = this.unstructuredPhrases.map(item => {
-          return {
-            title: item[this.language.question],
-            question: item[this.language.question],
-            answer: item[this.language.answer],
-            possibleAnswers: item[this.language.answer]
-          };
-        });
-      } else {
-        this.passedPhrases = false;
       }
     },
 
     // emits the phrases to parent
     sendPhrases: function() {
-      this.nextPhraseText = "Next Phrase";
-      this.returnPhraseQaStructure();
-      this.$emit("sendPhrases", this.passedPhrases);
+      this.buttonText = "Next phrase";
+      this.$emit("sendPhrases", this.getCurrentPhrases(this.phrases));
+      this.shouldDisplayButton(this.answerGrade);
     },
 
     // calculates whether to display the get phrases btn based on if the users answer is correct
-    shouldDisplayBtn(answer) {
-      if (answer === "correct") {
-        this.displayBtn = true;
-      } else if (answer === "incorrect") {
-        this.displayBtn = true;
-      } else if (answer === "try-again") {
-        this.displayBtn = false;
-      } else if (answer === null) {
-        this.displayBtn = false;
+    shouldDisplayButton(answer) {
+      if (answer === "correct" || answer === "incorrect" || answer === true) {
+        this.displayButton = true;
+      } else if (
+        answer === "try-again" ||
+        answer === null ||
+        answer === false
+      ) {
+        this.displayButton = false;
       }
     }
   },
+
   created() {
     // call API to get the phrases
     TanguageApi.requestPhrases(this.category)
-      .then(phrases => {
-        this.phrases = phrases;
-      })
-      .then(() => this.$emit("apiCall", this.phrases.length));
+      .then(unshuffledPhrases => this.getAllPhrases(unshuffledPhrases))
+      .then(shuffledPhrases => this.structurePhrases(shuffledPhrases))
+      .then(structuredPhrases => (this.phrases = structuredPhrases))
+      .then(() => this.$emit("apiCall", this.phrases.length))
+      .then(() => this.shouldDisplayButton(true));
   },
 
   watch: {
-    hasSubmitedRightAnswer: function() {
-      this.shouldDisplayBtn(this.hasSubmitedRightAnswer);
+    answerGrade: function() {
+      this.shouldDisplayButton(this.answerGrade);
     }
-  },
-
-  updated() {
-    this.shouldDisplayBtn(this.hasSubmitedRightAnswer);
   }
 };
 </script>

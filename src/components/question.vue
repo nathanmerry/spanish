@@ -1,8 +1,19 @@
 <template>
-  <div class="question">
-    <Speech v-if="type === `audio`" v-bind:text="text" />
-    <div v-if="type === `text`" class="question__text">{{ text }}</div>
-  </div>
+  <section v-if="phrase != null" class="question">
+    <Speech
+      v-if="type === `audio`"
+      v-bind:text="phrase"
+      :speakOnCreate="true"
+    />
+    <div v-if="type === `text`" class="question__text-wrapper">
+      <span class="question__text">{{ phrase }}</span>
+      <Speech
+        v-if="language.question != `english`"
+        v-bind:text="phrase"
+        :speakOnCreate="true"
+      />
+    </div>
+  </section>
 </template>
 
 <script>
@@ -12,9 +23,16 @@ export default {
   name: "Question",
   components: { Speech },
 
+  data() {
+    return {
+      Speech: "Speech"
+    };
+  },
+
   props: {
     type: String,
-    text: String
+    phrase: String,
+    language: Object
   }
 };
 </script>
@@ -23,7 +41,13 @@ export default {
 .question {
   padding-bottom: 20px;
 
+  &__text-wrapper {
+    display: flex;
+    align-items: center;
+  }
+
   &__text {
+    margin-right: 10px;
     font-size: 1.2rem;
 
     &:first-letter {

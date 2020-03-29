@@ -1,0 +1,62 @@
+[
+  {
+    "game": "MultipleChoice",
+    "language": {
+      "question": "spanish",
+      "answer": "english"
+    },
+    "questionType": "text",
+    "allowedAttempts": 1,
+    "additionalPhrases": 3
+  },
+  {
+    "game": "MultipleChoice",
+    "language": {
+      "question": "english",
+      "answer": "spanish"
+    },
+    "questionType": "text",
+    "allowedAttempts": 1,
+    "additionalPhrases": 3
+  },
+  {
+    "game": "OpenEnded",
+    "language": {
+      "question": "spanish",
+      "answer": "english"
+    },
+    "questionType": "text",
+    "allowedAttempts": 2,
+    "additionalPhrases": 0
+  },
+  {
+    "game": "OpenEnded",
+    "language": {
+      "question": "english",
+      "answer": "spanish"
+    },
+    "questionType": "text",
+    "allowedAttempts": 2,
+    "additionalPhrases": 0
+  },
+  {
+    "game": "MultipleChoice",
+    "language": {
+      "question": "spanish",
+      "answer": "english"
+    },
+    "questionType": "audio",
+    "allowedAttempts": 1,
+    "additionalPhrases": 3
+  },
+  {
+    "game": "OpenEnded",
+    "language": {
+      "question": "spanish",
+      "answer": "english"
+    },
+    "questionType": "audio",
+    "allowedAttempts": 2,
+    "additionalPhrases": 0
+  }
+]

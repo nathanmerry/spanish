@@ -5,41 +5,37 @@
         <img src="../assets/back-arrow.png" alt="" class="back" />
       </router-link>
       <h1 class="category__title">Choose your level!</h1>
-      <router-link :to="{ name: 'level1' }" class="category__link">
-        Level 1
-      </router-link>
-      <router-link :to="{ name: 'level2' }" class="category__link">
-        Level 2
-      </router-link>
-      <router-link :to="{ name: 'level3' }" class="category__link">
-        Level 3
-      </router-link>
-      <router-link :to="{ name: 'level4' }" class="category__link">
-        Level 4
-      </router-link>
-      <router-link :to="{ name: 'level5' }" class="category__link">
-        Level 5
-      </router-link>
-      <router-link :to="{ name: 'level6' }" class="category__link">
-        Level 6
-      </router-link>
+
+      <div v-for="(level, index) in levels" :key="index">
+        <router-link
+          :to="{ name: `allLevels`, params: { level: `level${index + 1}` } }"
+          class="category__link"
+        >
+          {{ `level ${index + 1}` }}
+        </router-link>
+      </div>
+
       <router-view />
     </div>
   </div>
 </template>
 
 <script>
+import levels from "../levels.json";
+
 export default {
   name: "Category",
 
   data() {
     return {
       the_subject: this.$route.params.subject,
-      phrases: []
+      phrases: [],
+      levels: []
     };
   },
 
   mounted() {
+    console.log(levels);
     fetch("https://data.test/index.php/wp-json/markers/v1/post/")
       .then(response => response.json())
       .then(jsonResponse => {
@@ -56,6 +52,9 @@ export default {
         return (this.phrases = phrasesObject.filter(phrase => {
           return phrase.category == this.the_subject;
         }));
+      })
+      .then(() => {
+        this.levels = levels;
       });
   }
 };
@@ -64,7 +63,6 @@ export default {
 <style lang="scss">
 .category {
   position: relative;
-  overflow: hidden;
   height: 100%;
 
   &__title {
@@ -81,6 +79,7 @@ export default {
     margin-right: 40px;
     margin-bottom: 20px;
     font-size: 1.1rem;
+    text-transform: capitalize;
   }
 }
 

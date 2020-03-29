@@ -1,5 +1,5 @@
 <template>
-  <div v-if="!phrases" class="finishedMessage">
+  <section v-if="!phrases" class="finishedMessage">
     <div class="container">
       <div class="finishedMessage__text">Finished!</div>
       <div class="finishedMessage__text">
@@ -7,7 +7,7 @@
         {{ encouragement }}
       </div>
     </div>
-  </div>
+  </section>
 </template>
 
 <script>

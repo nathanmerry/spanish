@@ -1,0 +1,13 @@
+{
+  "MultipleChoice": {
+    "allowedAttempts": 1,
+    "additionalPhrases": 3,
+    "header": "mark the correct translation"
+  },
+
+  "OpenEnded": {
+    "allowedAttempts": 2,
+    "additionalPhrases": 0,
+    "header": "type this is"
+  }
+}

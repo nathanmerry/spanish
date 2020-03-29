@@ -1,12 +1,12 @@
 <template>
-  <div v-if="displayButton" class="nextPhraseButton">
+  <section v-if="displayButton" class="nextPhraseButton">
     <div class="container">
       <button class="nextPhraseButton__button" v-if="hasStartedGame">
         Continue
       </button>
       <button class="nextPhraseButton__button" v-else>First Phrase</button>
     </div>
-  </div>
+  </section>
 </template>
 
 <script>
