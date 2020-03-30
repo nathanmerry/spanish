@@ -5,12 +5,12 @@
         <h1 class="categories__header">Choose your category!</h1>
         <ul class="categories__list">
           <router-link
-            :to="{ name: 'category', params: { subject: category } }"
-            v-for="(category, index) in this.categories"
+            v-for="(category, index) in categories"
+            :to="{ name: 'category', params: { subject: category.slug } }"
             :key="index"
             class="categories__item"
           >
-            <div v-if="category">{{ category }}</div>
+            <div v-if="category">{{ category.name }}</div>
           </router-link>
         </ul>
 
@@ -71,7 +71,13 @@ export default {
             return category.name !== "Uncategorized";
           })
           .map(category => {
-            return category.name;
+            const categories = {
+              name: category.name,
+              slug: category.slug
+            };
+
+            console.log(categories);
+            return categories;
           });
       });
   }
