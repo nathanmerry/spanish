@@ -7,7 +7,6 @@ const TanguageApi = {
         .json()
         .then(jsonRes => {
           return jsonRes.map(item => {
-            console.log(item)
             return {
               category: item.category[0].slug,
               title: item.post_title.trim(),

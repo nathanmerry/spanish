@@ -23,9 +23,11 @@ export default {
     }
   },
 
-  created() {
-    if (this.speakOnCreate === true) {
-      this.speak(this.text);
+  watch: {
+    text() {
+      if (this.speakOnCreate === true) {
+        this.speak(this.text);
+      }
     }
   }
 };
