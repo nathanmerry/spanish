@@ -10,7 +10,7 @@
   "dependencies": {
     "@google-cloud/text-to-speech": "^2.2.0",
     "core-js": "^3.6.4",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "google-auth-library": "^5.10.0",
     "google-tts-api": "0.0.4",
     "vue": "^2.6.11",
